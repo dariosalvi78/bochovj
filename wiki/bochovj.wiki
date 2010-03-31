@@ -1,5 +1,5 @@
 #summary Project description
-#labels Projectdesription
+#labels Projectdescription
 
 = Introduction =
 
