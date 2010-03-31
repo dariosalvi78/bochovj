@@ -1,0 +1,28 @@
+#summary Project description
+#labels Projectdesription
+
+= Introduction =
+
+BochoVJ is a hobbyist VJ and new media artist.
+As he's doing some research with video synthesis (Processing), physical computing (Arduino) and old style VJing (Resolume controlled by MIDI), he decided to publish the code he produces as open source.
+
+He warmly welcomes contributions of course (that' why the code is published), and would be very happy to see people using what he's produced, without having to loose time in fixing things that he had already fixed :)
+
+= Project content =
+
+The code is shared using SVN.
+There are two reasons why I have prefered it: it allows publishing a link to a particular file or directory, and because it permits to use only on part of the repository.
+
+The project contains three directories:
+
+  * Processing 
+  * Arduino
+  * Java
+
+= Contacts =
+
+These are BochoVJ contacts:
+
+  * email: dariosalvi78 AT gmail.com
+  * Vimeo: http://vimeo.com/user1623696/videos
+  * Blog: http://bochovj.wordpress.com/
