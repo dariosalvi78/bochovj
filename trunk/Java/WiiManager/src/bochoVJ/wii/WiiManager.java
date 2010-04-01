@@ -1,4 +1,8 @@
 /**
+ * Wrapper for wiiRemoteJ
+ * 
+ * Distributed under artistic license:
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
  * 
  */
 package bochoVJ.wii;
@@ -22,7 +26,7 @@ import wiiremotej.event.WRStatusEvent;
 import wiiremotej.event.WiiRemoteListener;
 
 /**
- * @author Dario Salvi
+ * @author bochovj
  *
  */
 public class WiiManager {

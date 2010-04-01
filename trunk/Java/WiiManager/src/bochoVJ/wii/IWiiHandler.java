@@ -1,10 +1,14 @@
 /**
+ * Wrapper for wiiRemoteJ
+ * 
+ * Distributed under artistic license:
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
  * 
  */
 package bochoVJ.wii;
 
 /**
- * @author Dario Salvi
+ * @author bochovj
  *
  */
 public interface IWiiHandler {
