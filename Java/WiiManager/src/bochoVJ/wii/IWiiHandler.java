@@ -8,21 +8,35 @@
 package bochoVJ.wii;
 
 /**
+ * A handler for WiiMote events
  * @author bochovj
  *
  */
 public interface IWiiHandler {
-	
-	public class Acceleration
-	{
-		public double x, y, z;
-		
-	}
-	
-	public enum WiiButton { A, B, LEFT, RIGHT, UP, DOWN, MINUS, PLUS, HOME, ONE, TWO};
-	
-	public void handleAcc(Acceleration acc);
 
-	public void handleButton(WiiButton b);
-	
+    /**
+     * A simple acceleration object
+     * 
+     * @author bochovj
+     */
+    public class Acceleration
+    {
+	public double x, y, z;
+    }
+
+    /**
+     * WiiMote's buttons
+     */
+    public enum WiiButton { A, B, LEFT, RIGHT, UP, DOWN, MINUS, PLUS, HOME, ONE, TWO };
+
+    /**
+     * Handles the acceleration received
+     */
+    public void handleAcc(Acceleration acc);
+
+    /**
+     * Handles the button pressed event
+     */
+    public void handleButton(WiiButton b);
+
 }
