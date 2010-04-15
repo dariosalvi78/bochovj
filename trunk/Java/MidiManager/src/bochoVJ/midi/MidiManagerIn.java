@@ -7,6 +7,7 @@
  */
 package bochoVJ.midi;
 
+import java.awt.Frame;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -123,6 +124,59 @@ public class MidiManagerIn implements Receiver{
     {
 	transmitter.close();
     }
+    
+    
+    public int promptUserSelectDevice()
+    {
+	LinkedList<MidiDeviceSelectDialog.MidiDevice> devices = new LinkedList<MidiDeviceSelectDialog.MidiDevice>();
+	MidiDevice.Info[] aInfos = MidiSystem.getMidiDeviceInfo();
+	for (int i = 0; i < aInfos.length; i++) {
+	    try {
+		MidiDevice device = MidiSystem.getMidiDevice(aInfos[i]);
+		if(device.getMaxTransmitters() != 0)
+		{
+		    devices.add(new MidiDeviceSelectDialog.MidiDevice(i, aInfos[i].getName()));
+		    System.out.println("" + i + "  "
+			    + aInfos[i].getName() + ", " + aInfos[i].getVendor()
+			    + ", " + aInfos[i].getVersion() + ", "
+			    + aInfos[i].getDescription());
+		}
+	    }  
+	    catch (MidiUnavailableException e) {
+		//Ignore device
+	    }
+	}
+
+	//Generate dialog:
+	MidiDeviceSelectDialog dial = new MidiDeviceSelectDialog(null);
+	dial.createMidiOutList(devices);
+	dial.setDeviceHandler(new MidiDeviceSelectDialog.IDeviceHandler() {
+	    @Override
+	    public void handle(int deviceNumber) {
+		devN = deviceNumber;
+		synchronized(mutex)
+		{
+		    mutex.notify();
+		}
+	    }
+	});
+	//dial.setEnabled(true);
+	dial.setVisible(true);
+	synchronized(mutex)
+	{
+	    try {
+		mutex.wait();
+	    } 
+	    catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+	}
+
+	return devN;
+    }
+
+    private int devN;
+    private Object mutex = new Object();
 
 }
 
