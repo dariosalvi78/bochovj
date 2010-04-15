@@ -7,6 +7,8 @@
  */
 package bochoVJ.midi;
 
+import java.awt.Frame;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -24,10 +26,13 @@ import javax.sound.midi.Transmitter;
  */
 public class MidiManagerOut implements Transmitter{
 
+    boolean started;
+
     Receiver receiver;
 
     public MidiManagerOut()
     {
+	started = false;
     }
 
     @Override
@@ -47,29 +52,36 @@ public class MidiManagerOut implements Transmitter{
 	this.receiver.send(msg, -1);
     }
 
-    public void sendNoteChange(int channel, int note, int velocity) throws InvalidMidiDataException
+    public void sendNoteOn(int channel, int note, int velocity) throws InvalidMidiDataException
     {
 	ShortMessage msg = new ShortMessage();
 	msg.setMessage(ShortMessage.NOTE_ON, channel, note, velocity);
 	this.receiver.send(msg, -1);
     }
 
-    public void startDevice(int deviceNumber) throws MidiUnavailableException
+    public void startDevice(int deviceNumber) throws Exception
     {
+	if(started == true)
+	    throw new Exception("Cannot start an already started device, first close it");
 	MidiDevice.Info[] aInfos = MidiSystem.getMidiDeviceInfo();
 	MidiDevice device = MidiSystem.getMidiDevice(aInfos[deviceNumber]);
 	device.open();
 	Receiver r = device.getReceiver();
 
 	this.setReceiver(r);	
+	started = true;
     }
 
-    public void startEmulation()
+    public void startEmulation() throws Exception
     {
+	if(started == true)
+	    throw new Exception("Cannot start an already started device, first close it");
+
 	new Thread(new Runnable() {
 	    @Override
 	    public void run() {
-		while(true)
+		started = true;
+		while(started)
 		{
 		    try 
 		    {
@@ -78,7 +90,7 @@ public class MidiManagerOut implements Transmitter{
 			    //Send note
 			    int note = new Random().nextInt(127);
 			    int intensity = new Random().nextInt(127);
-			    sendNoteChange(1, note, intensity);
+			    sendNoteOn(1, note, intensity);
 			    //Send control
 			    sendControlChange(1, 16, i);
 			    Thread.sleep(1000);
@@ -96,25 +108,59 @@ public class MidiManagerOut implements Transmitter{
     @Override
     public void close() {
 	receiver.close();
+	started = false;
     }
 
-
-    /**
-     * Just a testing application that sends values each second
-     * @param args
-     */
-    public static void main(String[] args)
+    public int promptUserSelectDevice()
     {
-	try
-	{
-	    MidiManagerOut mng = new MidiManagerOut();
+	LinkedList<MidiDeviceSelectDialog.MidiDevice> devices = new LinkedList<MidiDeviceSelectDialog.MidiDevice>();
+	MidiDevice.Info[] aInfos = MidiSystem.getMidiDeviceInfo();
+	for (int i = 0; i < aInfos.length; i++) {
+	    try {
+		MidiDevice device = MidiSystem.getMidiDevice(aInfos[i]);
+		if(device.getMaxReceivers() != 0)
+		{
+		    devices.add(new MidiDeviceSelectDialog.MidiDevice(i, aInfos[i].getName()));
+		    System.out.println("" + i + "  "
+			    + aInfos[i].getName() + ", " + aInfos[i].getVendor()
+			    + ", " + aInfos[i].getVersion() + ", "
+			    + aInfos[i].getDescription());
+		}
+	    }  
+	    catch (MidiUnavailableException e) {
+		//Ignore device
+	    }
+	}
 
-	    mng.startDevice(11);
-	    mng.startEmulation();
+	//Generate dialog:
+	MidiDeviceSelectDialog dial = new MidiDeviceSelectDialog(null);
+	dial.createMidiOutList(devices);
+	dial.setDeviceHandler(new MidiDeviceSelectDialog.IDeviceHandler() {
+	    @Override
+	    public void handle(int deviceNumber) {
+		devN = deviceNumber;
+		synchronized(mutex)
+		{
+		    mutex.notify();
+		}
+	    }
+	});
+	//dial.setEnabled(true);
+	dial.setVisible(true);
+	synchronized(mutex)
+	{
+	    try {
+		mutex.wait();
+	    } 
+	    catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
 	}
-	catch (Exception e) {
-	    e.printStackTrace();
-	}
+
+	return devN;
     }
+
+    private int devN;
+    private Object mutex = new Object();
 }
 
