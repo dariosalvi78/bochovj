@@ -1,0 +1,19 @@
+#summary How to setup eclipse for usign the code.
+
+= Setup instructions =
+
+First of all download Eclipse:  http://www.eclipse.org/downloads/
+The SE version will do fine (Eclipse IDE for Java Developers).
+
+Donwload a SVN client. Eclipse has one by default, you can find it in the plugins, just look for SVN in Help->Install new software, then choose your's Eclipse version repository (e.g. Galileo).
+
+Download further libraries, we use JMF for the MIDI drawer: http://java.sun.com/javase/technologies/desktop/media/jmf/2.1.1/download.html
+
+Download the code from SVN doing a checkout, and switch the Eclipse workspace to where you've downloaded the code / java.
+
+Create a java classpath variable: Window->Preferences->Java->BuildPath->ClassPath variables->New. Name it "Libraries" (without quotes) and select Folder. Point it to the Libraries subdirectory in the java directory.
+
+Import the existing projects and compile (should compile automatically).
+
+Everything's fine?
+If not please contact me.
