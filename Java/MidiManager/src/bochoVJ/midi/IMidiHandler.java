@@ -12,11 +12,10 @@ package bochoVJ.midi;
  * @author bochovj
  *
  */
-public interface IMidiVisualizer {
+public interface IMidiHandler {
 	
-	public void visualizeNote(int note, int intensity);
+	public void handleNote(int channel, int note, int intensity);
+	
+	public void handleControlChange(int channel, int controlN, int value);
 
-	public void setup();
-	
-	public void draw();
 }
