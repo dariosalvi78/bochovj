@@ -17,6 +17,7 @@ import javax.media.control.FrameGrabbingControl;
 import javax.media.format.VideoFormat;
 import javax.media.util.BufferToImage;
 
+
 /**
  * A simple grabber of images from a live video, a wrapper for JMF
  * 
@@ -33,11 +34,12 @@ public class VideoGrabber {
 
     public void setMediaAddress(String addr)
     {
-	this.mediaAddress = addr;
+	this.mediaAddress = addr;    
     }
 
     public void startCapture() throws Exception
     {
+	System.out.println("Starting capture from "+mediaAddress);
 	MediaLocator ml = new MediaLocator(mediaAddress);
 
 	player = Manager.createRealizedPlayer(ml);
