@@ -14,12 +14,12 @@ package bochovj.midiDraw;
  */
 public class Point {
     
-    public Point(float x, float y)
+    public Point(float x, float y, float weight)
     {
 	this.x = x;
 	this.y = y;
+	this.weight = weight;
     }
 
-    public float x,y;
-    
+    public float x,y, weight;
 }
