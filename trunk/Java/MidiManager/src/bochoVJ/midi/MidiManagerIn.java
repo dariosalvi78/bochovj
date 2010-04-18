@@ -29,26 +29,21 @@ public class MidiManagerIn implements Receiver{
 
     Transmitter transmitter;
 
-    List<IMidiVisualizer> visualizers;
+    List<IMidiHandler> handlers;
 
-    public List<IMidiVisualizer> getVisualizers()
+    public List<IMidiHandler> getVisualizers()
     {
-	return this.visualizers;
+	return this.handlers;
     }
 
-    public void addVisualizer(IMidiVisualizer vis)
+    public void addHanler(IMidiHandler vis)
     {
-	this.visualizers.add(vis);
-    }
-
-    public void setVisualizers(List<IMidiVisualizer> visualizers)
-    {
-	this.visualizers = visualizers;
+	this.handlers.add(vis);
     }
 
     public MidiManagerIn()
     {
-	this.visualizers = new LinkedList<IMidiVisualizer>();
+	this.handlers = new LinkedList<IMidiHandler>();
     }
 
     public void startDevice(int deviceNumber) throws MidiUnavailableException
@@ -72,11 +67,11 @@ public class MidiManagerIn implements Receiver{
 		{
 		    try {
 			Thread.sleep(500);
-			for(IMidiVisualizer visualizer : visualizers)
+			for(IMidiHandler visualizer : handlers)
 			{
 			    int note = new Random().nextInt(127);
 			    int intensity = new Random().nextInt(127);
-			    visualizer.visualizeNote(note, intensity);
+			    visualizer.handleNote(1, note, intensity);
 			}
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
@@ -91,19 +86,26 @@ public class MidiManagerIn implements Receiver{
 	ShortMessage sm = (ShortMessage) message;
 	if(sm instanceof ShortMessage)
 	{
+	    int channel = sm.getChannel();
 	    switch(sm.getCommand())
 	    {   
 	    case ShortMessage.NOTE_ON:
 		int note = sm.getData1();
 		int intensity = sm.getData2();
-		for(IMidiVisualizer visualizer : this.visualizers)
+		for(IMidiHandler handler : this.handlers)
 		{
-		    visualizer.visualizeNote(note, intensity);
+		    handler.handleNote(channel, note, intensity);
 		}
 		break;
 	    case ShortMessage.CHANNEL_PRESSURE:
 		break;
 	    case ShortMessage.CONTROL_CHANGE:
+		int controlN = sm.getData1();
+		int value = sm.getData2();
+		for(IMidiHandler handler : this.handlers)
+		{
+		    handler.handleControlChange(channel, controlN, value);
+		}
 		break;
 	    case ShortMessage.NOTE_OFF:
 		break;
