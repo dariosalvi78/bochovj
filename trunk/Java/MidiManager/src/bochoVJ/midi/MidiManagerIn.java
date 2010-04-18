@@ -55,6 +55,8 @@ public class MidiManagerIn implements Receiver{
     {
 	MidiDevice.Info[] aInfos = MidiSystem.getMidiDeviceInfo();
 	MidiDevice InputDevice = MidiSystem.getMidiDevice(aInfos[deviceNumber]);
+	System.out.println("Opening IN device: "+aInfos[deviceNumber].getName());
+	
 	InputDevice.open();
 	transmitter = InputDevice.getTransmitter();
 
@@ -148,7 +150,7 @@ public class MidiManagerIn implements Receiver{
 	}
 
 	//Generate dialog:
-	MidiDeviceSelectDialog dial = new MidiDeviceSelectDialog(null);
+	MidiDeviceSelectDialog dial = new MidiDeviceSelectDialog(null, "Please select Midi IN device");
 	dial.createMidiOutList(devices);
 	dial.setDeviceHandler(new MidiDeviceSelectDialog.IDeviceHandler() {
 	    @Override

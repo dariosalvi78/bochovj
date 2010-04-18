@@ -22,11 +22,13 @@ public class MidiDeviceSelectDialog extends JDialog {
     private JButton okButton = null;
     private JLabel midiDeviceLabel = null;
 
+    private String messageText;
     /**
      * @param owner
      */
-    public MidiDeviceSelectDialog(Frame owner) {
+    public MidiDeviceSelectDialog(Frame owner, String messageText) {
 	super(owner);
+	this.messageText = messageText;
 	initialize();
     }
 
@@ -49,7 +51,7 @@ public class MidiDeviceSelectDialog extends JDialog {
 	if (jContentPane == null) {
 	    midiDeviceLabel = new JLabel();
 	    midiDeviceLabel.setBounds(new Rectangle(10, 8, 217, 16));
-	    midiDeviceLabel.setText("Select a Midi device");
+	    midiDeviceLabel.setText(messageText);
 	    jContentPane = new JPanel();
 	    jContentPane.setLayout(null);
 	    jContentPane.add(getMidiOutList(), null);
