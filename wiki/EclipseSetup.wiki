@@ -9,7 +9,9 @@ Donwload a SVN client. Eclipse has one by default, you can find it in the plugin
 
 Download further libraries, we use JMF for the MIDI drawer: http://java.sun.com/javase/technologies/desktop/media/jmf/2.1.1/download.html
 
-Download the code from SVN doing a checkout, and switch the Eclipse workspace to where you've downloaded the code / java.
+Download the code from SVN doing a checkout. Follow the instructions given here:
+http://code.google.com/p/bochovj/source/checkout
+Switch the Eclipse workspace to where you've downloaded the code / java.
 
 Create a java classpath variable: Window->Preferences->Java->BuildPath->ClassPath variables->New. Name it "Libraries" (without quotes) and select Folder. Point it to the Libraries subdirectory in the java directory.
 
