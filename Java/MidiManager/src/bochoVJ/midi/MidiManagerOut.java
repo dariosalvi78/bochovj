@@ -63,7 +63,10 @@ public class MidiManagerOut implements Transmitter{
     {
 	if(started == true)
 	    throw new Exception("Cannot start an already started device, first close it");
+	
 	MidiDevice.Info[] aInfos = MidiSystem.getMidiDeviceInfo();
+	System.out.println("Opening OUT device: "+aInfos[deviceNumber].getName());
+	
 	MidiDevice device = MidiSystem.getMidiDevice(aInfos[deviceNumber]);
 	device.open();
 	Receiver r = device.getReceiver();
@@ -133,7 +136,7 @@ public class MidiManagerOut implements Transmitter{
 	}
 
 	//Generate dialog:
-	MidiDeviceSelectDialog dial = new MidiDeviceSelectDialog(null);
+	MidiDeviceSelectDialog dial = new MidiDeviceSelectDialog(null, "Please select Midi OUT device");
 	dial.createMidiOutList(devices);
 	dial.setDeviceHandler(new MidiDeviceSelectDialog.IDeviceHandler() {
 	    @Override
