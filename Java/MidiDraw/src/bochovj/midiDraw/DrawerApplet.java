@@ -13,6 +13,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import bochoVJ.midi.IMidiHandler;
+import bochoVJ.midi.MidiManagerIn;
 import bochoVJ.midi.MidiManagerOut;
 import bochovj.midiDraw.features.Emptiness;
 
@@ -35,23 +37,70 @@ public class DrawerApplet extends PApplet{
     ConcurrentLinkedQueue<Stroke> strokes;
 
     Stroke currentStroke;
+    
+    private float currentStrokeWidth = 1;
 
     List<FeatureExtractor> featureExtractors;
 
-    MidiManagerOut out;
+    MidiManagerOut midiout;
+    MidiManagerIn in;
+
     public static VideoGrabber videograbber;
     PImage backgroundImg;
+    PImage originalImg;
 
+    private int blurControlN = 71;
+    private int strokeWidthControlN = 74;
+    
     public DrawerApplet() throws Exception
     {
 	strokes = new ConcurrentLinkedQueue<Stroke>();
 	featureExtractors = new LinkedList<FeatureExtractor>();
 	featureExtractors.add(new Emptiness(strokes, 1, 16)); //Emptiness on control 16
 
-	out = new MidiManagerOut();
-	int outDev = out.promptUserSelectDevice();
-	out.startDevice(outDev);
-	
+	midiout = new MidiManagerOut();
+	int outDev = midiout.promptUserSelectDevice();
+	midiout.startDevice(outDev);
+
+	in = new MidiManagerIn();
+	int inDev = in.promptUserSelectDevice();
+	in.startDevice(inDev);
+
+
+	in.addHanler(new IMidiHandler() {
+
+	    @Override
+	    public void handleNote(int channel, int note, int intensity) {
+
+	    }
+
+	    @Override
+	    public void handleControlChange(int channel, int controlN, int value) {
+		PImage newImage = null;
+		try {  newImage = (PImage) originalImg.clone();} 
+		catch (CloneNotSupportedException e) {}
+		if(controlN == blurControlN)
+		{
+		    // Change image settings
+		    if(backgroundImg != null)
+		    {
+			float blur = (value / 127F) * 4F;
+			newImage.filter(BLUR, blur);
+			backgroundImg = newImage;
+		    } 
+		}
+		else if(controlN == strokeWidthControlN)
+		{
+		    // Change stroke Width
+		    if(backgroundImg != null)
+		    {
+			currentStrokeWidth = (value / 127F) * 4F;
+		    } 
+		}
+		
+	    }
+	});
+
 	//Start features thread
 	new Thread(new Runnable() {
 	    @Override
@@ -66,8 +115,7 @@ public class DrawerApplet extends PApplet{
 			    //Output to midi
 			    if(fe.hasValueChanged())
 			    {
-				out.sendControlChange(fe.getChannelNumber(), fe.getControlNumber(), feature);
-				System.out.println("Feature: "+feature);
+				midiout.sendControlChange(fe.getChannelNumber(), fe.getControlNumber(), feature);
 			    }
 			}
 
@@ -112,22 +160,22 @@ public class DrawerApplet extends PApplet{
     public void draw()
     {
 	background(0);
-	
+
 	//Draw background Image
 	if(backgroundImg != null)
 	    image(backgroundImg, 0, 0, xSize, ySize);
-	
+
 	stroke(255);
 	strokeJoin(ROUND);
 	strokeCap(ROUND);
-	
+
 	//Get point
 	if(currentStroke != null)
 	{
-	    currentStroke.offer(new Point(mouseX, mouseY, 2));
+	    currentStroke.offer(new Point(mouseX, mouseY, currentStrokeWidth));
 	}
 
-	
+
 	//Draw strokes
 	for(Stroke str : strokes)
 	{
@@ -144,8 +192,8 @@ public class DrawerApplet extends PApplet{
 		}
 	    }
 	}
-	
-	
+
+
     }
 
     public void mousePressed()
@@ -160,7 +208,7 @@ public class DrawerApplet extends PApplet{
 	//Not creating strokes any more
 	currentStroke = null;
     }
-    
+
     public void keyPressed()
     {
 	if(key == 'i')
@@ -171,7 +219,13 @@ public class DrawerApplet extends PApplet{
     {
 	Image img = videograbber.captureImage();
 	System.out.println("Capturing image");
-	backgroundImg = new PImage(img);
+	originalImg = new PImage(img);
+	originalImg.filter(GRAY);
+	try 
+	{
+	    backgroundImg = (PImage) originalImg.clone();
+	} catch (CloneNotSupportedException e) {
+	}
     }
-    
+
 }
