@@ -118,15 +118,14 @@ public class DrawerApplet extends PApplet{
 				midiout.sendControlChange(fe.getChannelNumber(), fe.getControlNumber(), feature);
 			    }
 			}
-
-			Thread.sleep(disappearRate);
+			Thread.sleep(featuresRate);
 		    } 
 		} 
 		catch (Exception e) {
 		    e.printStackTrace();
 		}
 	    }
-	}).start();
+	}, "Features thread").start();
 
 	//Start disappearing thread
 	new Thread(new Runnable() {
@@ -138,7 +137,7 @@ public class DrawerApplet extends PApplet{
 		    {
 			Stroke str = strokes.peek();
 			if(str != null)
-			    if(str.poll() == null)
+			    if(str.removeLastPoint() == null)
 				strokes.remove(str);
 
 			Thread.sleep(disappearRate);
@@ -148,7 +147,7 @@ public class DrawerApplet extends PApplet{
 		    e.printStackTrace();
 		}
 	    }
-	}).start();
+	}, "Disappearing points thread").start();
     }
 
     public void setup()
@@ -172,15 +171,18 @@ public class DrawerApplet extends PApplet{
 	//Get point
 	if(currentStroke != null)
 	{
-	    currentStroke.offer(new Point(mouseX, mouseY, currentStrokeWidth));
+	    Point lastpoint = currentStroke.getLastPoint();
+	    
+	    //Add only if really new
+	    if((lastpoint == null) || ((lastpoint.x != mouseX)||(lastpoint.y!= mouseY)))
+		currentStroke.insertPoint(new Point(mouseX, mouseY, currentStrokeWidth));
 	}
-
 
 	//Draw strokes
 	for(Stroke str : strokes)
 	{
-	    Iterator<Point> piter = str.iterator();
-	    if(str.size()>1)
+	    Iterator<Point> piter = str.getClonedIterator();
+	    if(str.getPointsNumber()>1)
 	    {
 		Point previousPoint = piter.next();
 		while(piter.hasNext())
