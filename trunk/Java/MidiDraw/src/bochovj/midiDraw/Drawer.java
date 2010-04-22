@@ -1,7 +1,12 @@
 package bochovj.midiDraw;
 import processing.core.PApplet;
 
-
+/**
+ * This class is needed almost only to start the video capturing, 
+ * which on some OSs is not allowed in an Applet (e.g. Windows Vista)
+ * @author bochovj
+ *
+ */
 public class Drawer {
     
     public static void main(String args[]) throws Exception {

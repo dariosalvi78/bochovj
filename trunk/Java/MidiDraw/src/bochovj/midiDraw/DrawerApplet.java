@@ -198,6 +198,9 @@ public class DrawerApplet extends PApplet{
 
     }
 
+    /**
+     * When pressed the stroke begins
+     */
     public void mousePressed()
     {
 	//Creating a new stroke
@@ -205,18 +208,28 @@ public class DrawerApplet extends PApplet{
 	strokes.offer(currentStroke);
     }
 
+    /**
+     * When released the stroke ends
+     */
     public void mouseReleased()
     {
 	//Not creating strokes any more
 	currentStroke = null;
     }
 
+    /**
+     * Used to interact with the user:
+     * i: captures the image
+     */
     public void keyPressed()
     {
 	if(key == 'i')
 	    printCamImg();
     }
 
+    /**
+     * Prints the captured image as backgorund
+     */
     private void printCamImg()
     {
 	Image img = videograbber.captureImage();
