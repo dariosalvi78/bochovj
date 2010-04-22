@@ -104,7 +104,7 @@ public class MidiManagerIn implements Receiver{
 		int value = sm.getData2();
 		for(IMidiHandler handler : this.handlers)
 		{
-		    handler.handleControlChange(channel, controlN, value);
+		    handler.handleControlChange	(channel, controlN, value);
 		}
 		break;
 	    case ShortMessage.NOTE_OFF:
