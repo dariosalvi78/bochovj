@@ -1,4 +1,5 @@
 #summary A program that translates Drawings into Midi
+#labels Midi
 
 = Introduction =
 
