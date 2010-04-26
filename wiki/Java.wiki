@@ -1,5 +1,5 @@
 #summary Description of the Java projects
-#labels Featured
+#labels DirectoryDescription
 
 = Description of the directory =
 
