@@ -1,0 +1,10 @@
+#summary Description of the MidiManager project
+#labels Midi
+
+= Introduction =
+
+The MidiManager project is a simple wrapper for the [http://java.sun.com/j2se/1.4.2/docs/api/javax/sound/midi/package-summary.html javax.sound.midi] library.
+
+It defines an interface that handles midi events sent by a physical midi device, a wrapper to start a midi input and a wrapper to start a midi output.
+
+Moreover it gives a simple GUI (using Swing) to list and select the device from the local computer.
