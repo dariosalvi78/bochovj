@@ -17,7 +17,7 @@ The project contains three directories:
 
   * Processing 
   * Arduino
-  * Java
+  * [Java]
 
 = Contacts =
 
