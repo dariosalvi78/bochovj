@@ -1,0 +1,20 @@
+#summary Description of the Java projects
+#labels Featured
+
+= Description of the directory =
+
+Java directory includes Eclipse projects.
+To see how to setup Eclipse environment look at here: [EclipseSetup]
+
+Currently the projects contained there are:
+
+  * [MidiDraw]
+  * [MidiManager]
+  * [WiiManager]
+
+plus there is a Library directory that contains the external libraries used in these projects.
+Currently there are:
+
+  * Processing
+  * Bluecove
+  * [WiiRemoteJ]
