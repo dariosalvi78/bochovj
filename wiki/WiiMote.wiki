@@ -1,5 +1,5 @@
 #summary WiiMote introduction
-#labels WiiMote
+#labels Wii
 
 = What is it? =
 
