@@ -1,0 +1,8 @@
+#summary WiiManager project description
+#labels Wii
+
+= Project description =
+
+WiiManager project is a simple wrapper for the WiiRemoteJ library.
+
+It defines a manager that connects to the device and receives inputs, and a handler for those inputs.
