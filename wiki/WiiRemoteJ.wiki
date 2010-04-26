@@ -1,5 +1,5 @@
 #summary How to setup WiiRemoteJ
-#labels WiiRemoteJ
+#labels Wii
 
 = Introduction =
 
