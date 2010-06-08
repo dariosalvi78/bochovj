@@ -7,69 +7,72 @@
  */
 package bochovj.midiDraw;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
- * Abstact class for feature extractor
+ * Abstract class for feature extractor
  * @author bochovj
  *
  */
-public abstract class FeatureExtractor {
+public abstract class FeatureExtractor implements IStrokeHandler {
     
-    protected Queue<Stroke> strokes;
+    protected StrokesBuffer strokes;
+    
+    private List<IFeatureHandler> handlers;
+    public void registerFeatureHandler(IFeatureHandler h)
+    {
+	if(!handlers.contains(h))
+	    handlers.add(h);
+    }
+    
+    public void unregisterFeatureHandler(IFeatureHandler h)
+    {
+	if(handlers.contains(h))
+	    handlers.remove(h);
+    }
     
     private int lastValue;
     
-    private boolean valueChanged = true;
-    
-    private int channelNumber, controlNumber;
-    
-    public int getChannelNumber() {
-        return channelNumber;
-    }
 
-    public void setChannelNumber(int channelNumber) {
-        this.channelNumber = channelNumber;
-    }
-
-    public int getControlNumber() {
-        return controlNumber;
-    }
-
-    public void setControlNumber(int controlNumber) {
-        this.controlNumber = controlNumber;
-    }
-
-    public FeatureExtractor(Queue<Stroke> strokes, int channelNumber, int controlNumber)
+    public FeatureExtractor(StrokesBuffer strokesBuff)
     {
-	this.strokes = strokes;
-	this.channelNumber = channelNumber;
-	this.controlNumber = controlNumber;
-    }
-    
-    public boolean hasValueChanged()
-    {
-	return valueChanged;
-    }
-    
-    public int getFeature()
-    {
-	int currentValue = extractFeature(strokes);
-	if(lastValue != currentValue)
-	{
-	    lastValue = currentValue;
-	    valueChanged = true;
-	}
-	else
-	    valueChanged = false;
-	 
-	return currentValue;
+	this.strokes = strokesBuff;
+	
+	handlers = new LinkedList<IFeatureHandler>();
     }
     
     /**
      * Extracts a feature
      * @return a value between 0 and 127
      */
-    protected abstract int extractFeature(Queue<Stroke> strokes);
+    protected abstract int extractFeature();
+    
+    private void sendFeature()
+    {
+	int currentValue = extractFeature();
+	if(lastValue != currentValue)
+	{
+	    lastValue = currentValue;
+	    for(IFeatureHandler h: handlers)
+		h.handleFeature(this, currentValue);
+	}
+    }
+    
+    @Override
+    public void handleNewPoint(Point p) {
+	addNewPoint(p);
+	sendFeature();
+    }
 
+    @Override
+    public void handleNewStroke() {
+	addNewStroke();
+	sendFeature();
+    }
+    
+    protected abstract void addNewPoint(Point p);
+
+    protected abstract void addNewStroke();
 }
