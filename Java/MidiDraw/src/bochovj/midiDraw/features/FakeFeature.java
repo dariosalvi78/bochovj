@@ -7,12 +7,12 @@
  */
 package bochovj.midiDraw.features;
 
-import java.util.Queue;
-
 import bochovj.midiDraw.FeatureExtractor;
-import bochovj.midiDraw.Stroke;
+import bochovj.midiDraw.Point;
+import bochovj.midiDraw.StrokesBuffer;
 
 /**
+ * A test feature
  * @author bochovj
  *
  */
@@ -25,15 +25,15 @@ public class FakeFeature extends FeatureExtractor {
      * @param channelNumber
      * @param controlNumber
      */
-    public FakeFeature(Queue<Stroke> strokes, int channelNumber, int controlNumber) {
-	super(strokes, channelNumber, controlNumber);
+    public FakeFeature(StrokesBuffer buffer) {
+	super(buffer);
     }
 
     /* (non-Javadoc)
      * @see bochovj.FeatureExtractor#extractFeature(java.util.Queue)
      */
     @Override
-    protected int extractFeature(Queue<Stroke> strokes) {
+    protected int extractFeature() {
 	
 	value++;
 	
@@ -41,6 +41,16 @@ public class FakeFeature extends FeatureExtractor {
 	    value = 0;
 	
 	return value;
+    }
+
+    @Override
+    protected void addNewPoint(Point p) {
+	// Nothing to do
+    }
+
+    @Override
+    protected void addNewStroke() {
+	// Nothing to do
     }
 
 }

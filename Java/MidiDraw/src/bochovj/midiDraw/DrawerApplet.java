@@ -11,12 +11,6 @@ import java.awt.Image;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiManagerIn;
-import bochoVJ.midi.MidiManagerOut;
-import bochovj.midiDraw.features.Emptiness;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -26,134 +20,67 @@ import processing.core.PImage;
  * @author bochovj
  *
  */
-public class DrawerApplet extends PApplet{
+public class DrawerApplet extends PApplet implements IStrokeInput{
+
+    private static DrawerApplet _instance;
+    public static DrawerApplet getInstance()
+    {
+	return _instance;
+    }
 
     public static final int xSize = 800;
     public static final int ySize = 600;
 
-    final int disappearRate = 200;
-    final int featuresRate = 500;
-
-    ConcurrentLinkedQueue<Stroke> strokes;
-
-    Stroke currentStroke;
+    public Iterable<Stroke> strokes;
+    public Point lastaddedpoint = new Point(0, 0, 0);
     
+    private List<IStrokeHandler> strokeHandlers;
+    @Override
+    public void registerStrokeHandler(IStrokeHandler h) {
+	if(h!= null)
+	    if(!strokeHandlers.contains(h))
+		strokeHandlers.add(h);
+    }
+
     private float currentStrokeWidth = 1;
 
     List<FeatureExtractor> featureExtractors;
-
-    MidiManagerOut midiout;
-    MidiManagerIn in;
 
     public static VideoGrabber videograbber;
     PImage backgroundImg;
     PImage originalImg;
 
-    private int blurControlN = 71;
-    private int strokeWidthControlN = 74;
+    public void handleBackGroundBlur(float value)
+    {
+	if(backgroundImg != null)
+	    {
+	    PImage newImage = null;
+		try {  newImage = (PImage) originalImg.clone();} 
+		catch (CloneNotSupportedException e) {}
+		float blur = value * 4F;
+		newImage.filter(BLUR, blur);
+		backgroundImg = newImage;
+	    } 
+    }
+    
+    public void handleStrokeWidth(float value)
+    {
+	currentStrokeWidth = value * 4F;
+    }
     
     public DrawerApplet() throws Exception
     {
-	strokes = new ConcurrentLinkedQueue<Stroke>();
-	featureExtractors = new LinkedList<FeatureExtractor>();
-	featureExtractors.add(new Emptiness(strokes, 1, 16)); //Emptiness on control 16
+	//Creates singleton instance
+	_instance = this;
 
-	midiout = new MidiManagerOut();
-	int outDev = midiout.promptUserSelectDevice();
-	midiout.startDevice(outDev);
-
-	in = new MidiManagerIn();
-	int inDev = in.promptUserSelectDevice();
-	in.startDevice(inDev);
-
-
-	in.addHanler(new IMidiHandler() {
-
-	    @Override
-	    public void handleNote(int channel, int note, int intensity) {
-
-	    }
-
-	    @Override
-	    public void handleControlChange(int channel, int controlN, int value) {
-		PImage newImage = null;
-		try {  newImage = (PImage) originalImg.clone();} 
-		catch (CloneNotSupportedException e) {}
-		if(controlN == blurControlN)
-		{
-		    // Change image settings
-		    if(backgroundImg != null)
-		    {
-			float blur = (value / 127F) * 4F;
-			newImage.filter(BLUR, blur);
-			backgroundImg = newImage;
-		    } 
-		}
-		else if(controlN == strokeWidthControlN)
-		{
-		    // Change stroke Width
-		    if(backgroundImg != null)
-		    {
-			currentStrokeWidth = (value / 127F) * 4F;
-		    } 
-		}
-		
-	    }
-	});
-
-	//Start features thread
-	new Thread(new Runnable() {
-	    @Override
-	    public void run() {
-		try 
-		{
-		    while(true)
-		    {
-			for(FeatureExtractor fe : featureExtractors)
-			{
-			    int feature = fe.getFeature();
-			    //Output to midi
-			    if(fe.hasValueChanged())
-			    {
-				midiout.sendControlChange(fe.getChannelNumber(), fe.getControlNumber(), feature);
-			    }
-			}
-			Thread.sleep(featuresRate);
-		    } 
-		} 
-		catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	}, "Features thread").start();
-
-	//Start disappearing thread
-	new Thread(new Runnable() {
-	    @Override
-	    public void run() {
-		try 
-		{
-		    while(true)
-		    {
-			Stroke str = strokes.peek();
-			if(str != null)
-			    if(str.removeLastPoint() == null)
-				strokes.remove(str);
-
-			Thread.sleep(disappearRate);
-		    } 
-		} 
-		catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
-	    }
-	}, "Disappearing points thread").start();
+	strokeHandlers = new LinkedList<IStrokeHandler>();
     }
 
     public void setup()
     {	
 	size(xSize, ySize);
 	background(0);
+
     }
 
     public void draw()
@@ -168,53 +95,40 @@ public class DrawerApplet extends PApplet{
 	strokeJoin(ROUND);
 	strokeCap(ROUND);
 
-	//Get point
-	if(currentStroke != null)
+	//Capture point
+	if(mousePressed)
 	{
-	    Point lastpoint = currentStroke.getLastPoint();
-	    
-	    //Add only if really new
-	    if((lastpoint == null) || ((lastpoint.x != mouseX)||(lastpoint.y!= mouseY)))
-		currentStroke.insertPoint(new Point(mouseX, mouseY, currentStrokeWidth));
+	    if((lastaddedpoint.x != mouseX) || ((lastaddedpoint.y != mouseY)))
+		for(IStrokeHandler h: strokeHandlers)
+		    h.handleNewPoint(new Point(mouseX, mouseY, currentStrokeWidth));
 	}
 
 	//Draw strokes
-	for(Stroke str : strokes)
-	{
-	    Iterator<Point> piter = str.getClonedIterator();
-	    if(str.getPointsNumber()>1)
+	if(strokes != null)
+	    for(Stroke str : strokes)
 	    {
-		Point previousPoint = piter.next();
-		while(piter.hasNext())
+		Iterator<Point> piter = str.getClonedIterator();
+		if(str.getPointsNumber()>1)
 		{
-		    Point nextPoint = piter.next();
-		    strokeWeight(nextPoint.weight);
-		    line(previousPoint.x, previousPoint.y, nextPoint.x, nextPoint.y);
-		    previousPoint = nextPoint;
+		    Point previousPoint = piter.next();
+		    while(piter.hasNext())
+		    {
+			Point nextPoint = piter.next();
+			strokeWeight(nextPoint.weight);
+			line(previousPoint.x, previousPoint.y, nextPoint.x, nextPoint.y);
+			previousPoint = nextPoint;
+		    }
 		}
 	    }
-	}
-
-
     }
 
     /**
-     * When pressed the stroke begins
+     * When pressed a new stroke begins
      */
     public void mousePressed()
     {
-	//Creating a new stroke
-	currentStroke = new Stroke();
-	strokes.offer(currentStroke);
-    }
-
-    /**
-     * When released the stroke ends
-     */
-    public void mouseReleased()
-    {
-	//Not creating strokes any more
-	currentStroke = null;
+	for(IStrokeHandler h: strokeHandlers)
+	    h.handleNewStroke();
     }
 
     /**
@@ -228,18 +142,20 @@ public class DrawerApplet extends PApplet{
     }
 
     /**
-     * Prints the captured image as backgorund
+     * Prints the captured image as background
      */
     private void printCamImg()
     {
-	Image img = videograbber.captureImage();
-	System.out.println("Capturing image");
-	originalImg = new PImage(img);
-	originalImg.filter(GRAY);
-	try 
+	if(videograbber != null)
 	{
-	    backgroundImg = (PImage) originalImg.clone();
-	} catch (CloneNotSupportedException e) {
+	    Image img = videograbber.captureImage();
+	    System.out.println("Capturing image");
+	    originalImg = new PImage(img);
+	    originalImg.filter(GRAY);
+	    try 
+	    {
+		backgroundImg = (PImage) originalImg.clone();
+	    } catch (CloneNotSupportedException e) {}
 	}
     }
 
