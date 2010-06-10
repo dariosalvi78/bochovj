@@ -10,8 +10,8 @@ package bochovj.midiDraw.features;
 
 import bochovj.midiDraw.DrawerApplet;
 import bochovj.midiDraw.FeatureExtractor;
-import bochovj.midiDraw.Point;
-import bochovj.midiDraw.StrokesBuffer;
+import bochovj.draw.Point;
+import bochovj.draw.StrokesBuffer;
 
 /**
  * A simple feature that gives the emptiness of the drawing

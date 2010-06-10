@@ -1,11 +1,11 @@
 /**
- * Midi Drawer, a program that translates drawings to midi messages
+ * Common: general utilities
  * 
  * Distributed under artistic license:
  * http://www.opensource.org/licenses/artistic-license-2.0.php
  * 
  */
-package bochovj.midiDraw;
+package bochovj.video;
 
 import java.awt.Image;
 
