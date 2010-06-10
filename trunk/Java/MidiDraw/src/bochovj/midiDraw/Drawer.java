@@ -1,6 +1,7 @@
 package bochovj.midiDraw;
-import bochoVJ.midi.MidiManagerIn;
+import bochovj.draw.StrokesBuffer;
 import bochovj.midiDraw.features.Emptiness;
+import bochovj.video.VideoGrabber;
 import processing.core.PApplet;
 
 /**

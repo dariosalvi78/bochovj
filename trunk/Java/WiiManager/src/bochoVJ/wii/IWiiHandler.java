@@ -15,7 +15,8 @@ package bochoVJ.wii;
 public interface IWiiHandler {
 
     /**
-     * A simple acceleration object
+     * A simple acceleration object.
+     * Maximum value for acceleration: 5
      * 
      * @author bochovj
      */

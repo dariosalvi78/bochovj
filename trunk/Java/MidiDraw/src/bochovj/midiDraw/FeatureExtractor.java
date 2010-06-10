@@ -7,9 +7,12 @@
  */
 package bochovj.midiDraw;
 
+import bochovj.draw.IStrokeHandler;
+import bochovj.draw.Point;
+import bochovj.draw.StrokesBuffer;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Abstract class for feature extractor

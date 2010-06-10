@@ -1,9 +1,14 @@
 /**
+ * Common: general utilities
+ * 
+ * Distributed under artistic license:
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
  * 
  */
-package bochovj.midiDraw;
+package bochovj.draw;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 /**
  * @author bochovj

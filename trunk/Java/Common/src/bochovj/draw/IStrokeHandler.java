@@ -1,4 +1,12 @@
-package bochovj.midiDraw;
+/**
+ * Common: general utilities
+ * 
+ * Distributed under artistic license:
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ * 
+ */
+package bochovj.draw;
+
 
 public interface IStrokeHandler {
     

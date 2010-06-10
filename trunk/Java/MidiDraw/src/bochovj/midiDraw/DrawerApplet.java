@@ -7,10 +7,17 @@
  */
 package bochovj.midiDraw;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import bochovj.draw.IStrokeHandler;
+import bochovj.draw.IStrokeInput;
+import bochovj.draw.Point;
+import bochovj.draw.Stroke;
+import bochovj.video.VideoGrabber;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -22,6 +29,8 @@ import processing.core.PImage;
  */
 public class DrawerApplet extends PApplet implements IStrokeInput{
 
+    private static final long serialVersionUID = -5024248105361950846L;
+    
     private static DrawerApplet _instance;
     public static DrawerApplet getInstance()
     {
@@ -31,8 +40,10 @@ public class DrawerApplet extends PApplet implements IStrokeInput{
     public static final int xSize = 800;
     public static final int ySize = 600;
 
+    private Color strokeColor = new Color(255,255,255);
+    
     public Iterable<Stroke> strokes;
-    public Point lastaddedpoint = new Point(0, 0, 0);
+    public Point lastaddedpoint = new Point(0, 0, strokeColor, 0);
     
     private List<IStrokeHandler> strokeHandlers;
     @Override
@@ -91,7 +102,6 @@ public class DrawerApplet extends PApplet implements IStrokeInput{
 	if(backgroundImg != null)
 	    image(backgroundImg, 0, 0, xSize, ySize);
 
-	stroke(255);
 	strokeJoin(ROUND);
 	strokeCap(ROUND);
 
@@ -100,7 +110,7 @@ public class DrawerApplet extends PApplet implements IStrokeInput{
 	{
 	    if((lastaddedpoint.x != mouseX) || ((lastaddedpoint.y != mouseY)))
 		for(IStrokeHandler h: strokeHandlers)
-		    h.handleNewPoint(new Point(mouseX, mouseY, currentStrokeWidth));
+		    h.handleNewPoint(new Point(mouseX, mouseY, strokeColor, currentStrokeWidth));
 	}
 
 	//Draw strokes
@@ -114,6 +124,7 @@ public class DrawerApplet extends PApplet implements IStrokeInput{
 		    while(piter.hasNext())
 		    {
 			Point nextPoint = piter.next();
+			stroke(nextPoint.color.getRed(), nextPoint.color.getGreen(), nextPoint.color.getBlue());
 			strokeWeight(nextPoint.weight);
 			line(previousPoint.x, previousPoint.y, nextPoint.x, nextPoint.y);
 			previousPoint = nextPoint;

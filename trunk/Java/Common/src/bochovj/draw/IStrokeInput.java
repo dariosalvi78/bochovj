@@ -1,7 +1,8 @@
 /**
  * 
  */
-package bochovj.midiDraw;
+package bochovj.draw;
+
 
 /**
  * A stroke input captures strokes and their points
