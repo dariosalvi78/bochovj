@@ -1,0 +1,7 @@
+#N canvas 835 110 450 300 10;
+#X obj 195 157 print;
+#X msg 195 108 \$1 hello;
+#X floatatom 195 66 5 0 0 0 - - -;
+#X text 21 6 Just a hello world;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
