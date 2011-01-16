@@ -13,11 +13,13 @@ He warmly welcomes contributions of course (that' why the code is published), an
 The code is shared using SVN.
 There are two reasons why I have prefered it: it allows publishing a link to a particular file or directory, and because it permits to use only on part of the repository.
 
-The project contains three directories:
+The project contains five directories:
 
   * Processing 
   * Arduino
   * [Java]
+  * [Fritzing]
+  * PureData
 
 = Contacts =
 
