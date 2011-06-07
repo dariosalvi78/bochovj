@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import bochovj.draw.ADrawerApplet;
 import bochovj.draw.IStrokeHandler;
 import bochovj.draw.IStrokeInput;
 import bochovj.draw.Point;
@@ -27,34 +28,35 @@ import processing.core.PImage;
  * @author bochovj
  *
  */
-public class DrawerApplet extends PApplet implements IStrokeInput{
+public class DrawerApplet extends ADrawerApplet{
 
-    private static final long serialVersionUID = -5024248105361950846L;
-    
     private static DrawerApplet _instance;
     public static DrawerApplet getInstance()
     {
+	if(_instance != null)
+	    _instance = new DrawerApplet();
+	
 	return _instance;
     }
-
-    public static final int xSize = 800;
-    public static final int ySize = 600;
-
-    private Color strokeColor = new Color(255,255,255);
     
-    public Iterable<Stroke> strokes;
-    public Point lastaddedpoint = new Point(0, 0, strokeColor, 0);
-    
-    private List<IStrokeHandler> strokeHandlers;
     @Override
-    public void registerStrokeHandler(IStrokeHandler h) {
-	if(h!= null)
-	    if(!strokeHandlers.contains(h))
-		strokeHandlers.add(h);
+    protected void drawLine(Point p) {
+	stroke(p.color.getRed(), p.color.getGreen(), p.color.getBlue());
+	strokeWeight(p.weight);
     }
 
-    private float currentStrokeWidth = 1;
 
+    @Override
+    protected void preDrawLine() {
+	//Draw background Image
+	if(backgroundImg != null)
+	    image(backgroundImg, 0, 0, xSize, ySize);
+
+	strokeJoin(ROUND);
+	strokeCap(ROUND);
+	
+    }
+    
     List<FeatureExtractor> featureExtractors;
 
     public static VideoGrabber videograbber;
@@ -74,73 +76,6 @@ public class DrawerApplet extends PApplet implements IStrokeInput{
 	    } 
     }
     
-    public void handleStrokeWidth(float value)
-    {
-	currentStrokeWidth = value * 4F;
-    }
-    
-    public DrawerApplet() throws Exception
-    {
-	//Creates singleton instance
-	_instance = this;
-
-	strokeHandlers = new LinkedList<IStrokeHandler>();
-    }
-
-    public void setup()
-    {	
-	size(xSize, ySize);
-	background(0);
-
-    }
-
-    public void draw()
-    {
-	background(0);
-
-	//Draw background Image
-	if(backgroundImg != null)
-	    image(backgroundImg, 0, 0, xSize, ySize);
-
-	strokeJoin(ROUND);
-	strokeCap(ROUND);
-
-	//Capture point
-	if(mousePressed)
-	{
-	    if((lastaddedpoint.x != mouseX) || ((lastaddedpoint.y != mouseY)))
-		for(IStrokeHandler h: strokeHandlers)
-		    h.handleNewPoint(new Point(mouseX, mouseY, strokeColor, currentStrokeWidth));
-	}
-
-	//Draw strokes
-	if(strokes != null)
-	    for(Stroke str : strokes)
-	    {
-		Iterator<Point> piter = str.getClonedIterator();
-		if(str.getPointsNumber()>1)
-		{
-		    Point previousPoint = piter.next();
-		    while(piter.hasNext())
-		    {
-			Point nextPoint = piter.next();
-			stroke(nextPoint.color.getRed(), nextPoint.color.getGreen(), nextPoint.color.getBlue());
-			strokeWeight(nextPoint.weight);
-			line(previousPoint.x, previousPoint.y, nextPoint.x, nextPoint.y);
-			previousPoint = nextPoint;
-		    }
-		}
-	    }
-    }
-
-    /**
-     * When pressed a new stroke begins
-     */
-    public void mousePressed()
-    {
-	for(IStrokeHandler h: strokeHandlers)
-	    h.handleNewStroke();
-    }
 
     /**
      * Used to interact with the user:

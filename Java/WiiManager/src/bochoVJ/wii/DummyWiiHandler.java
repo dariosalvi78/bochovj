@@ -14,10 +14,17 @@ package bochoVJ.wii;
  */
 public class DummyWiiHandler implements IWiiHandler {
 
+    public double max;
+    
     @Override
     public void handleAcc(Acceleration acc) {
-	System.out.println("Acceleration: x "+acc.x+" y "+acc.y+" z "+acc.z);
-
+	//System.out.println("Acceleration: x "+acc.x+" y "+acc.y+" z "+acc.z);
+	if(acc.x > max)
+	    max = acc.x;
+	if(acc.y > max)
+	    max = acc.y;
+	if(acc.z > max)
+	    max = acc.z;
     }
 
     @Override

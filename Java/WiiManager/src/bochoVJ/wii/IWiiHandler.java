@@ -16,7 +16,7 @@ public interface IWiiHandler {
 
     /**
      * A simple acceleration object.
-     * Maximum value for acceleration: 5
+     * Maximum value for acceleration: 5.5
      * 
      * @author bochovj
      */
