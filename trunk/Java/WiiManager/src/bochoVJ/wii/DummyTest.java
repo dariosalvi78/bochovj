@@ -25,6 +25,8 @@ public class DummyTest {
 	Thread.sleep(60000);
 
 	mng.disconnect();
+	
+	System.out.println("Max: "+handler.max);
     }
 
 }
