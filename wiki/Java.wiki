@@ -8,13 +8,17 @@ To see how to setup Eclipse environment look at here: [EclipseSetup]
 
 Currently the projects contained there are:
 
+  * [Common]
+  * [HIDApi]
   * [MidiDraw]
   * [MidiManager]
   * [WiiManager]
+  * [Visualizers]
 
 plus there is a Library directory that contains the external libraries used in these projects.
 Currently there are:
 
+  * JNA
   * Processing
   * Bluecove
   * [WiiRemoteJ]
