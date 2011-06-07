@@ -6,8 +6,9 @@ package bochoVJ.midi.visualizers;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import processing.core.PApplet;
+
 import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiApplet;
 import bochoVJ.midi.applets.IMidiVisualizer;
 
 /**
@@ -15,7 +16,7 @@ import bochoVJ.midi.applets.IMidiVisualizer;
  */
 public class OrnamentalTreeVisualizer implements IMidiVisualizer
 {
-	MidiApplet app;
+	PApplet app;
 
 	int SIZE = 25;
 	int MARGIN = 25;
@@ -32,9 +33,9 @@ public class OrnamentalTreeVisualizer implements IMidiVisualizer
 	LinkedList points2;
 	Iterator pointIterator;
 
-	public OrnamentalTreeVisualizer() 
+	public OrnamentalTreeVisualizer(PApplet applet) 
 	{
-		app = MidiApplet.getInstance();
+		app = applet;
 	}
 
 	public void setup() {

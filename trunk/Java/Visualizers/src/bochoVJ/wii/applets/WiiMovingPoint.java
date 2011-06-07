@@ -54,17 +54,19 @@ public class WiiMovingPoint extends PApplet {
 
 	    @Override
 	    public void handleButton(WiiButton bt) {
-		
 	    }
 
 	    @Override
 	    public void handleAcc(Acceleration acc) {
 		xspeed = (float)(acc.x * accFactor);
 		yspeed = (float)(acc.y * accFactor);
-		size = abs(((float)acc.z / 5) * maxSize);
-		currentColor = new Color((float)map(acc.x, -5, 5, 0, 255), 
-			(float)map(acc.y, -5, 5, 0, 255), 
-			(float)map(acc.z, -5, 5, 0, 255));
+		size = abs(
+			(float)map(acc.z, -5.5, 5.5, 1, maxSize));
+		
+		currentColor = new Color(
+			(float)map(acc.x, -5.5, 5.5, 0, 1), 
+			(float)map(acc.y, -5.5, 5.5, 0, 1), 
+			(float)map(acc.z, -5.5, 5.5, 0, 1));
 	    }
 	});
 

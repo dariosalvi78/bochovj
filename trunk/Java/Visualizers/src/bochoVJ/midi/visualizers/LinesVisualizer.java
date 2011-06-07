@@ -1,27 +1,24 @@
 package bochoVJ.midi.visualizers;
 
-import java.util.LinkedList;
 
 import processing.core.PApplet;
 
-import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiApplet;
 import bochoVJ.midi.applets.IMidiVisualizer;
 
 public class LinesVisualizer implements IMidiVisualizer {
 
 	int[] lines = new int[12];
 
-	MidiApplet app;
+	PApplet app;
 
 	Object mutex = new Object();
 
 	private int steps = 30;
 	private int maxweight = 10;
 	
-	public LinesVisualizer()
+	public LinesVisualizer(PApplet applet)
 	{
-		app = MidiApplet.getInstance();
+		app = applet;
 	}
 
 	@Override
