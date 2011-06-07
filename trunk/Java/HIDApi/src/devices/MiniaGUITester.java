@@ -201,7 +201,7 @@ public class MiniaGUITester extends JFrame {
     private void initialize() {
 	this.setSize(349, 271);
 	this.setContentPane(getJContentPane());
-	this.setTitle("JFrame");
+	this.setTitle("Minia Tester GUI");
     }
 
     /**
