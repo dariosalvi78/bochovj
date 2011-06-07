@@ -1,0 +1,15 @@
+#summary Common Java Project
+
+The Common Java Project contains tools that are shared among other projects.
+
+Currently two main packages are included:
+
+==draw==
+
+Contains an abstract specification of a program that draws strokes painted with the mouse on the screen.
+The program captures the strokes, buffers them and makes them disappear in time, but does not actually draw them.
+
+==video==
+
+Is a simple grabber of images from a live video, a wrapper for JMF
+
