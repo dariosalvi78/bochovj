@@ -1,7 +1,7 @@
 package bochoVJ.midi.visualizers;
 
+import processing.core.PApplet;
 import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiApplet;
 import bochoVJ.midi.applets.IMidiVisualizer;
 
 public class NetVisualizer implements IMidiVisualizer {
@@ -13,7 +13,7 @@ public class NetVisualizer implements IMidiVisualizer {
 		public int size;
 	}
 
-	MidiApplet app;
+	PApplet app;
 
 	Node[] nodes = new Node[12];
 
@@ -25,9 +25,9 @@ public class NetVisualizer implements IMidiVisualizer {
 
 	float maxSpeed = 0.5F;
 
-	public NetVisualizer()
+	public NetVisualizer(PApplet applet)
 	{
-		app = MidiApplet.getInstance();
+		app = applet;
 
 		for(int i=0; i< 12; i++)
 		{

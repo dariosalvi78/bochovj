@@ -1,13 +1,16 @@
 package bochoVJ.midi.visualizers;
 import processing.core.PApplet;
 import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiApplet;
 import bochoVJ.midi.applets.IMidiVisualizer;
 
 public class RectVisualizer implements IMidiVisualizer {
 
-	public RectVisualizer()
+    	PApplet app;
+    	
+	public RectVisualizer(PApplet applet)
 	{
+	    app = applet;
+	    
 		for(int i =0; i< 12; i++)
 		{
 			this.rects[i][0] = 0;
@@ -36,7 +39,6 @@ public class RectVisualizer implements IMidiVisualizer {
 		{
 			if(rects[i][1] >0)
 			{
-				PApplet app = MidiApplet.getInstance();
 				app.fill(rects[i][1]);
 				app.noStroke();
 				float x = (app.width/12)*i;

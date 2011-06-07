@@ -10,8 +10,9 @@ package bochoVJ.midi.visualizers;
 import java.util.LinkedList;
 import java.util.List;
 
+import processing.core.PApplet;
+
 import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiApplet;
 import bochoVJ.midi.applets.IMidiVisualizer;
 
 /**
@@ -19,7 +20,7 @@ import bochoVJ.midi.applets.IMidiVisualizer;
  */
 public class ShowerVisualizer implements IMidiVisualizer {
 
-    MidiApplet app;
+    PApplet app;
 
     Object mutex = new Object();
 
@@ -44,9 +45,9 @@ public class ShowerVisualizer implements IMidiVisualizer {
 
     private List<Drop> drops;
 
-    public ShowerVisualizer()
+    public ShowerVisualizer(PApplet applet)
     {
-	app = MidiApplet.getInstance();
+	app = applet;
 	this.drops = new LinkedList<Drop>();
     }
 

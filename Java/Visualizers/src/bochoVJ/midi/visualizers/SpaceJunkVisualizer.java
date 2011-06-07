@@ -1,7 +1,7 @@
 package bochoVJ.midi.visualizers;
 
+import processing.core.PApplet;
 import bochoVJ.midi.IMidiHandler;
-import bochoVJ.midi.MidiApplet;
 import bochoVJ.midi.applets.IMidiVisualizer;
 
 /**
@@ -17,7 +17,7 @@ import bochoVJ.midi.applets.IMidiVisualizer;
 public class SpaceJunkVisualizer implements IMidiVisualizer {
 
 	
-	MidiApplet app;
+	PApplet app;
 
 	// Used for oveall rotation
 	float ang;
@@ -27,6 +27,11 @@ public class SpaceJunkVisualizer implements IMidiVisualizer {
 
 	// Array for all cubes
 	Cube[]cubes = new Cube[limit];
+	
+	public SpaceJunkVisualizer(PApplet applet)
+	{
+	    app = applet;
+	}
 	
 	@Override
 	public void draw() {
