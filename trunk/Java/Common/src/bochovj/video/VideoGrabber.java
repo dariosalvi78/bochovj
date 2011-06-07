@@ -1,5 +1,5 @@
 /**
- * Common: general utilities
+ * Common libraries
  * 
  * Distributed under artistic license:
  * http://www.opensource.org/licenses/artistic-license-2.0.php
