@@ -7,7 +7,6 @@
  */
 package bochoVJ.midi;
 
-import java.awt.Frame;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;

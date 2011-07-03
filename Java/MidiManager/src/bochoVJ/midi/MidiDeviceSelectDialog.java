@@ -3,7 +3,10 @@ package bochoVJ.midi;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 
+import java.awt.Dialog;
 import java.awt.Frame;
+import java.awt.Window;
+
 import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.event.ListDataListener;
@@ -26,7 +29,7 @@ public class MidiDeviceSelectDialog extends JDialog {
     /**
      * @param owner
      */
-    public MidiDeviceSelectDialog(Frame owner, String messageText) {
+    public MidiDeviceSelectDialog(Window owner, String messageText) {
 	super(owner);
 	this.messageText = messageText;
 	initialize();
