@@ -19,7 +19,7 @@ public class RectsApplet extends MidiApplet{
     public RectsApplet()
     {
 	_instance = this;
-	visualizer = new RectVisualizer();
+	visualizer = new RectVisualizer(this);
     }
 
 

@@ -17,7 +17,7 @@ public class ShowerApplet extends MidiApplet {
 	public ShowerApplet()
 	{
 		_instance = this;
-		visualizer = new ShowerVisualizer();
+		visualizer = new ShowerVisualizer(this);
 	}
 	
 	public void setup()

@@ -20,7 +20,7 @@ public class OrnamentalTreeApplet extends MidiApplet {
 	public OrnamentalTreeApplet()
 	{
 		_instance = this;
-		visualizer = new OrnamentalTreeVisualizer();
+		visualizer = new OrnamentalTreeVisualizer(this);
 	}
 	
 	public void setup()
