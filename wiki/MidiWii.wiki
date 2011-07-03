@@ -1,8 +1,8 @@
-# The MidiWii Project
+#summary The MidiWii Project
 
 = MidiWii =
 
-MidiWii is a small application that translates the messages sent by a [[WiiMote]] into Midi messages.
+MidiWii is a small application that translates the messages sent by a WiiMote into Midi messages.
 
 Particularly buttons are translated to notes and accelerations to controls.
 
