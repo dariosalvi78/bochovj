@@ -8,8 +8,6 @@ import javax.swing.JPanel;
 
 import bochoVJ.midi.MidiManagerOut;
 import bochoVJ.wii.IWiiHandler;
-import bochoVJ.wii.IWiiHandler.Acceleration;
-import bochoVJ.wii.IWiiHandler.WiiButton;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -17,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
-import java.awt.Dimension;
 import javax.swing.JLabel;
 
 public class MidiWiiGUI extends JFrame {
