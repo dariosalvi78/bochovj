@@ -12,6 +12,7 @@ Currently the projects contained there are:
   * [HIDApi]
   * [MidiDraw]
   * [MidiManager]
+  * [MidiWii]
   * [WiiManager]
   * [Visualizers]
 
