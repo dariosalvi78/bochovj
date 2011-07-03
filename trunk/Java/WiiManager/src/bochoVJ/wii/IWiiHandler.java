@@ -23,7 +23,10 @@ public interface IWiiHandler {
     public class Acceleration
     {
 	public double x, y, z;
+	public static final double MaxACC =5.5;
     }
+    
+    
 
     /**
      * WiiMote's buttons

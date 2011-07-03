@@ -7,7 +7,6 @@
  */
 package bochoVJ.midi;
 
-import java.awt.Frame;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -114,7 +113,7 @@ public class MidiManagerOut implements Transmitter{
 	started = false;
     }
 
-    public int promptUserSelectDevice()
+    public static int promptUserSelectDevice()
     {
 	LinkedList<MidiDeviceSelectDialog.MidiDevice> devices = new LinkedList<MidiDeviceSelectDialog.MidiDevice>();
 	MidiDevice.Info[] aInfos = MidiSystem.getMidiDeviceInfo();
@@ -163,7 +162,7 @@ public class MidiManagerOut implements Transmitter{
 	return devN;
     }
 
-    private int devN;
-    private Object mutex = new Object();
+    private static int devN;
+    private static Object mutex = new Object();
 }
 
