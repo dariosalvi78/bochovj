@@ -9,4 +9,11 @@ Particularly buttons are translated to notes and accelerations to controls.
 
 = Screenshots =
 
+The main window of the program
 https://bochovj.googlecode.com/svn/trunk/Java/MidiWii/docs/MainWindow.jpg
+
+The midi configuration window
+https://bochovj.googlecode.com/svn/trunk/Java/MidiWii/docs/ConfigDialog.jpg
+
+The selection of the midi out interface
+https://bochovj.googlecode.com/svn/trunk/Java/MidiWii/docs/MidiSelect.jpg
