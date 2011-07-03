@@ -18,7 +18,7 @@ public class NetApplet extends MidiApplet {
 	public NetApplet()
 	{
 		_instance = this;
-		visualizer = new NetVisualizer();
+		visualizer = new NetVisualizer(this);
 	}
 	
 	public void setup()
