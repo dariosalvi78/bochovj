@@ -8,3 +8,5 @@ Particularly buttons are translated to notes and accelerations to controls.
 
 
 = Screenshots =
+
+https://bochovj.googlecode.com/svn/trunk/Java/MidiWii/docs/MainWindow.jpg
