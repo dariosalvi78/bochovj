@@ -10,7 +10,9 @@ Particularly buttons are translated to notes and accelerations to controls.
 Things you can do with MidiWii:
 
 - control some of your Resolume commands with the wii mote
+
 - play some notes with the wii mote
+
 - control some effects on audio and/or video by moving the wii mote
 
 
@@ -26,6 +28,8 @@ Save the file into some folder on your computer.
 
 
 Double click on the file to start it.
+
+On Windows a proper bluetooth stack supporting L2CAP is required. If your bluetooth adapter supports it, download the Widcomm stack [http://www.broadcom.com/support/bluetooth/update.php here].
 
 
 ==Use it==
