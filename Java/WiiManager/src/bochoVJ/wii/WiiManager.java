@@ -64,10 +64,14 @@ public class WiiManager {
 
 	/**
 	 * Connects to the Wii Mote
+	 * @throws Exception 
 	 */
-	public void connect() throws IllegalStateException, InterruptedException, IOException
+	public void connect() throws Exception
 	{
 		wiimote = WiiRemoteJ.findRemote();
+		if(wiimote == null)
+			throw new Exception("No WIIMote found");
+		
 		System.out.println("Wii Mote Found on: "+ wiimote.getBluetoothAddress());
 		wiimote.setAccelerometerEnabled(true);
 		wiimote.addWiiRemoteListener(new WiiRemoteListener() {
