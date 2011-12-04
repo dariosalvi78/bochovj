@@ -8,3 +8,16 @@ The MidiManager project is a simple wrapper for the [http://java.sun.com/j2se/1.
 It defines an interface that handles midi events sent by a physical midi device, a wrapper to start a midi input and a wrapper to start a midi output.
 
 Moreover it gives a simple GUI (using Swing) to list and select the device from the local computer.
+
+
+SerialToMidi:
+
+is a tool that just routes midi messages coming from a serial port to a midi device.
+
+The library uses the JavaComm library
+
+Currently I have imported the Windows version of the library, which has been discontinued years ago, but it still downloadable [http://wind.lcs.mit.edu/download/java/javacomm20-win32.zip here]
+
+
+Another possibiliy is using a Serial to Midi driver, which would act at the operating system level.
+The most famous driver is the Roland, but is quite old and does not support more recent OSs. A better (IMHO) driver is produced by Yamaha and can be downloaded [http://download.yamaha.com/usb_midi/index.html here]
