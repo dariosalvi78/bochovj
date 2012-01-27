@@ -14,33 +14,33 @@ package bochoVJ.wii;
  */
 public interface IWiiHandler {
 
-    /**
-     * A simple acceleration object.
-     * Maximum value for acceleration: 5.5
-     * 
-     * @author bochovj
-     */
-    public class Acceleration
-    {
-	public double x, y, z;
-	public static final double MaxACC =5.5;
-    }
-    
-    
+	/**
+	 * A simple acceleration object.
+	 * Maximum value for acceleration: 5
+	 * 
+	 * @author bochovj
+	 */
+	public class Acceleration
+	{
+		public double x, y, z;
+		public static final double MaxACC =5;
+	}
 
-    /**
-     * WiiMote's buttons
-     */
-    public enum WiiButton { A, B, LEFT, RIGHT, UP, DOWN, MINUS, PLUS, HOME, ONE, TWO };
 
-    /**
-     * Handles the acceleration received
-     */
-    public void handleAcc(Acceleration acc);
 
-    /**
-     * Handles the button pressed event
-     */
-    public void handleButton(WiiButton b);
+	/**
+	 * WiiMote's buttons
+	 */
+	public enum WiiButton { A, B, LEFT, RIGHT, UP, DOWN, MINUS, PLUS, HOME, ONE, TWO };
+
+	/**
+	 * Handles the acceleration received
+	 */
+	public void handleAcc(Acceleration acc);
+
+	/**
+	 * Handles the button pressed event
+	 */
+	public void handleButton(WiiButton b);
 
 }

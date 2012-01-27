@@ -7,7 +7,6 @@
  */
 package bochoVJ.wii;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ import wiiremotej.event.WiiRemoteListener;
  * @author bochovj
  *
  */
-public class WiiManager {
+public class WiiRemoteJManager implements IWiiManager {
 
 	WiiRemote wiimote;
 
@@ -39,16 +38,15 @@ public class WiiManager {
 
 	private double batteryLevel;
 
-	/**
-	 * Gets the battery level of the device
-	 * @return returns the battery level
+	/* (non-Javadoc)
+	 * @see bochoVJ.wii.IWiiManager#getBatteryLevel()
 	 */
 	public double getBatteryLevel()
 	{
 		return batteryLevel;
 	}
 
-	public WiiManager()
+	public WiiRemoteJManager()
 	{
 		// Used for bluecove, the minimum psm must be set to off
 		System.setProperty("bluecove.jsr82.psm_minimum_off", "true");
@@ -57,14 +55,21 @@ public class WiiManager {
 		wiiHandlers = new LinkedList<IWiiHandler>();	
 	}
 
+	/* (non-Javadoc)
+	 * @see bochoVJ.wii.IWiiManager#addHandler(bochoVJ.wii.IWiiHandler)
+	 */
 	public void addHandler(IWiiHandler han)
 	{
 		wiiHandlers.add(han);
 	}
+	
+	@Override
+	public void removeHandler(IWiiHandler han) {
+		wiiHandlers.remove(han);
+	}
 
-	/**
-	 * Connects to the Wii Mote
-	 * @throws Exception 
+	/* (non-Javadoc)
+	 * @see bochoVJ.wii.IWiiManager#connect()
 	 */
 	public void connect() throws Exception
 	{
@@ -183,14 +188,13 @@ public class WiiManager {
 		});
 	}
 
-	/**
-	 * Disconnects from the mote
+	/* (non-Javadoc)
+	 * @see bochoVJ.wii.IWiiManager#disconnect()
 	 */
 	public void disconnect()
 	{
 		if(wiimote != null)
 			wiimote.disconnect();
 	}
-
 
 }
