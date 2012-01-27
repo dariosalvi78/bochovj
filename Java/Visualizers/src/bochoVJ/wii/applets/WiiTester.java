@@ -2,13 +2,14 @@ package bochoVJ.wii.applets;
 
 
 import bochoVJ.wii.IWiiHandler;
-import bochoVJ.wii.WiiManager;
+import bochoVJ.wii.IWiiManager;
+import bochoVJ.wii.WiiRemoteJManager;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class WiiTester extends PApplet {
 
-    WiiManager wiimng;
+    IWiiManager wiimng;
 
     private final int xSize = 400;
     private final int ySize = 400;
@@ -28,7 +29,7 @@ public class WiiTester extends PApplet {
 
     public void setup()
     {	
-	wiimng = new WiiManager();
+	wiimng = new WiiRemoteJManager();
 	wiimng.addHandler(new IWiiHandler() {
 
 	    @Override

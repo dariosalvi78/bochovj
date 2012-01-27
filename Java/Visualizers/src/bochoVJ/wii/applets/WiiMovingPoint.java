@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Random;
 
 import bochoVJ.wii.IWiiHandler;
-import bochoVJ.wii.WiiManager;
+import bochoVJ.wii.IWiiManager;
+import bochoVJ.wii.WiiRemoteJManager;
 import bochovj.draw.Point;
 import processing.core.PApplet;
 
@@ -26,7 +27,7 @@ import processing.core.PApplet;
  */
 public class WiiMovingPoint extends PApplet {
 
-    WiiManager wiimng;
+    IWiiManager wiimng;
 
     private final int xSize = 600;
     private final int ySize = 600;
@@ -49,7 +50,7 @@ public class WiiMovingPoint extends PApplet {
 
     public void setup()
     {	
-	wiimng = new WiiManager();
+	wiimng = new WiiRemoteJManager();
 	wiimng.addHandler(new IWiiHandler() {
 
 	    @Override

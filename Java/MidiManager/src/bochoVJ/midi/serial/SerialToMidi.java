@@ -16,10 +16,6 @@
  */
 package bochoVJ.midi.serial;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +23,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +36,11 @@ import bochoVJ.midi.MidiManagerOut;
 import gnu.io.*;
 
 /**
+ * The serial to midi class implements the protocol and sends it to a MidiManagerOut.
+ * The main method asks for the serial port, the midi interface and starts a little
+ * dialog with start/stop buttons.
+ * In order to run, it needs the native libraries of RTXT in the execution path.
+ * 
  * @author bochovj
  *
  */
@@ -53,7 +53,12 @@ public class SerialToMidi {
 	CommPort port;
 	boolean keepreading;
 
-
+	/**
+	 * Standard constructor.
+	 * @param port the name of the serial port, e.g. COM2, TTY1
+	 * @param midiout, the midi device where to send messages
+	 * @throws Exception
+	 */
 	public SerialToMidi(String port, int midiout) throws Exception
 	{
 		portId =CommPortIdentifier.getPortIdentifier(port);
@@ -85,6 +90,10 @@ public class SerialToMidi {
 		return retVal;
 	}
 
+	/**
+	 * Starts gathering data from the serial port and sending it to the midi out
+	 * @throws Exception
+	 */
 	public void start() throws Exception
 	{
 		midiout.startDevice(midioutN);
@@ -135,7 +144,9 @@ public class SerialToMidi {
 
 	}
 
-
+	/**
+	 * Stops acquiring data from the serial port and closes port and midi
+	 */
 	public void stop()
 	{
 		keepreading = false;
@@ -143,7 +154,10 @@ public class SerialToMidi {
 		midiout.close();
 	}
 
-
+	/**
+	 * Starts an interactive and graphical way of using this utility
+	 * @param args ignored
+	 */
 	public static void main(String[] args)
 	{
 		try{
