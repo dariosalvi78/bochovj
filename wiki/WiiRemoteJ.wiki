@@ -30,8 +30,8 @@ The real pain comes when having to cope with the actual OS and bluetooth stack. 
 ==Windows Vista 32 bits==
 
 I am currently using a Belkin USB Bluetooth dongle.
-Am overview about Bluetoth stacks in Windows is available here:
-http://www.wiimoteproject.com/bluetooth-and-connectivity-knowledge-center/a-summary-of-windows-bluetooth-stacks-and-their-connection/?PHPSESSID=2fba19432f28d6e27f0b860485fc263b
+An overview about Bluetooth stacks in Windows is available [http://www.wiimoteproject.com/bluetooth-and-connectivity-knowledge-center/a-summary-of-windows-bluetooth-stacks-and-their-connection/?PHPSESSID=2fba19432f28d6e27f0b860485fc263b here]
+
 
 I have tried the standard Windows, Toshiba and Bluesoleil bluetooth stacks, the bluecove library gets them, but they are too limited to work with WiiRemoteJ.
 It seems that only the Widcomm stack has all the capabilities that are required. You can find Widcomm (free) driver here:
