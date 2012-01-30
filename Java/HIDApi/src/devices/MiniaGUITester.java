@@ -2,10 +2,8 @@ package devices;
 
 
 import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.Rectangle;
 import javax.swing.JLabel;
@@ -15,6 +13,11 @@ import javax.swing.JTextArea;
 import devices.Minia.MiniaData;
 import devices.Minia.MiniaDataHandler;
 
+/**
+ * A GUI for the MINIA driver.
+ * @author bochoVJ
+ *
+ */
 public class MiniaGUITester extends JFrame {
 
     private static final long serialVersionUID = 1L;
