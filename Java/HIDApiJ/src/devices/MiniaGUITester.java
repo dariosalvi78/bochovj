@@ -1,4 +1,13 @@
+/**
+ * HIDApiJ: a library to manage HID devices
+ * 
+ * devices package: the package containing specific devices implementations
+ * 
+ * Distributed under artistic license:
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
+ */
 package devices;
+
 
 
 import javax.swing.SwingUtilities;

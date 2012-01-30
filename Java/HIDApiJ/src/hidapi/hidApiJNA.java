@@ -1,6 +1,11 @@
 /**
- * Distributed under the LGPL 3.0
- * http://www.gnu.org/licenses/lgpl-3.0.txt
+ * HIDApiJ: a library to manage HID devices
+ * 
+ * hidAPIJNA package contains the JNA wrapper of the HIDapi, version 0.5.2
+ * http://www.signal11.us/oss/hidapi/
+ *  
+ * Distributed under artistic license:
+ * http://www.opensource.org/licenses/artistic-license-2.0.php
  */
 package hidapi;
 
@@ -11,6 +16,9 @@ import com.sun.jna.Structure;
 import com.sun.jna.WString;
 
 /**
+ * A JNA wrapper of the HIDapi, version 0.5.2
+ * http://www.signal11.us/oss/hidapi/
+ *  
  * @author bochovj
  *
  */
@@ -63,6 +71,7 @@ public class hidApiJNA  {
 	 */
 	public static void main(String[] args)
 	{
-		final HIDLibrary lib = HIDLibrary.INSTANCE;
+		System.out.println("The HIDapi native should be put here: "+System.getProperty("user.dir"));
+		Native.loadLibrary("hidapi",HIDLibrary.class);
 	}
 }
