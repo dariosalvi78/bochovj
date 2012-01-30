@@ -1,5 +1,5 @@
 /**
- * HIDApi: a library to manage HID devices
+ * HIDApiJ: a library to manage HID devices
  * 
  * devices package: the package containing specific devices implementations
  * 
