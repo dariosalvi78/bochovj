@@ -15,4 +15,4 @@ The native library is mapped to java using [http://jna.java.net/ JNA].
 At the moment only the [http://minitronics.net/ Minia] device has been supported.
 The code implements a parser of the packets sent by the device and nice GUI for testing it.
 
-https://bochovj.googlecode.com/svn/trunk/Java/HIDApi/docs/MiniaTester.jpg
+https://bochovj.googlecode.com/svn/trunk/Java/HIDApiJ/docs/MiniaTester.jpg
