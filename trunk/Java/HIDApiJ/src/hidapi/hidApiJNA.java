@@ -3,6 +3,7 @@
  * 
  * hidAPIJNA package contains the JNA wrapper of the HIDapi, version 0.5.2
  * http://www.signal11.us/oss/hidapi/
+ * https://github.com/signal11/hidapi/downloads
  *  
  * Distributed under artistic license:
  * http://www.opensource.org/licenses/artistic-license-2.0.php
@@ -72,6 +73,7 @@ public class hidApiJNA  {
 	public static void main(String[] args)
 	{
 		System.out.println("The HIDapi native should be put here: "+System.getProperty("user.dir"));
-		Native.loadLibrary("hidapi",HIDLibrary.class);
+		HIDLibrary lib = (HIDLibrary)  Native.loadLibrary("hidapi",HIDLibrary.class);
+		
 	}
 }
