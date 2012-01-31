@@ -160,6 +160,7 @@ public class SerialToMidi {
 	 */
 	public static void main(String[] args)
 	{
+		logger.info("Starting SerialToMidi");
 		try{
 			FileHandler fh = new FileHandler("serialToMidi.log");
 			fh.setFormatter(new SimpleFormatter());
