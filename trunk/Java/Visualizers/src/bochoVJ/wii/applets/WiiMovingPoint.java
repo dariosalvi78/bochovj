@@ -12,12 +12,11 @@ import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
+import bochoVJ.drawing.core.Point;
 import bochoVJ.wii.IWiiHandler;
 import bochoVJ.wii.IWiiManager;
 import bochoVJ.wii.WiiRemoteJManager;
-import bochovj.draw.Point;
 import processing.core.PApplet;
 
 /**
@@ -27,7 +26,12 @@ import processing.core.PApplet;
  */
 public class WiiMovingPoint extends PApplet {
 
-    IWiiManager wiimng;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3113723236065865739L;
+
+	IWiiManager wiimng;
 
     private final int xSize = 600;
     private final int ySize = 600;
@@ -98,7 +102,7 @@ public class WiiMovingPoint extends PApplet {
 	else
 	{
 	    Point p = points.get(0);
-	    if(!((p.x == xpos) || (p.y == ypos)))
+	    if(!((p.getX() == xpos) || (p.getY() == ypos)))
 		points.add(new Point(xpos, ypos, currentColor, size));	
 	}
 	
@@ -112,9 +116,12 @@ public class WiiMovingPoint extends PApplet {
 	    while(piter.hasNext())
 	    {
 		Point nextPoint = piter.next();
-		strokeWeight(nextPoint.weight);
-		stroke(nextPoint.color.getRed(),nextPoint.color.getGreen(),nextPoint.color.getBlue(),100);
-		line(previousPoint.x, previousPoint.y, nextPoint.x, nextPoint.y);
+		strokeWeight(nextPoint.getSize());
+		stroke(nextPoint.getColor().getRed(),
+				nextPoint.getColor().getGreen(),
+				nextPoint.getColor().getBlue(),100);
+		
+		line(previousPoint.getX(), previousPoint.getY(), nextPoint.getX(), nextPoint.getY());
 		previousPoint = nextPoint;
 	    }
 	}
