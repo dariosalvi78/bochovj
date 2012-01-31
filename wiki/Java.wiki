@@ -9,7 +9,7 @@ To see how to setup Eclipse environment look at here: [EclipseSetup]
 Currently the projects contained there are:
 
   * [Common]
-  * [HIDApi]
+  * [HIDApiJ]
   * [MidiDraw]
   * [MidiManager]
   * [MidiWii]
