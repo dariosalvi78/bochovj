@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 
 public class MidiWiiGUI extends JFrame {
 
@@ -36,13 +35,8 @@ public class MidiWiiGUI extends JFrame {
 
 	private JLabel lastButtonLabel = null;
 
-	private JLabel muteLabel = null;
+	private JButton configAccsButton = null;
 
-	private JCheckBox muteAccxCheckBox = null;
-
-	private JCheckBox muteAccyCheckBox = null;
-
-	private JCheckBox muteAcczCheckBox = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -75,7 +69,7 @@ public class MidiWiiGUI extends JFrame {
 	 */
 	private void initialize() {
 		this.setTitle("MidiWii");
-		this.setSize(274, 184);
+		this.setSize(275, 198);
 		this.setContentPane(getJContentPane());
 		this.addWindowStateListener(new WindowStateListener() {
 
@@ -91,9 +85,6 @@ public class MidiWiiGUI extends JFrame {
 
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
-			muteLabel = new JLabel();
-			muteLabel.setBounds(new Rectangle(21, 124, 38, 16));
-			muteLabel.setText("mute");
 			lastButtonLabel = new JLabel();
 			lastButtonLabel.setBounds(new Rectangle(190, 47, 64, 27));
 			lastButtonLabel.setText("last button");
@@ -109,10 +100,7 @@ public class MidiWiiGUI extends JFrame {
 			jContentPane.add(getGraphPlotter(), null);
 			jContentPane.add(buttonLabel, null);
 			jContentPane.add(lastButtonLabel, null);
-			jContentPane.add(muteLabel, null);
-			jContentPane.add(getMuteAccxCheckBox(), null);
-			jContentPane.add(getMuteAccyCheckBox(), null);
-			jContentPane.add(getMuteAcczCheckBox(), null);
+			jContentPane.add(getConfigAccsButton(), null);
 		}
 		return jContentPane;
 	}
@@ -125,7 +113,7 @@ public class MidiWiiGUI extends JFrame {
 	private JButton getStartButton() {
 		if (startButton == null) {
 			startButton = new JButton();
-			startButton.setBounds(new Rectangle(9, 7, 64, 26));
+			startButton.setBounds(new Rectangle(49, 8, 64, 26));
 			startButton.setText("start");
 			startButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -150,7 +138,7 @@ public class MidiWiiGUI extends JFrame {
 	private JButton getStopButton() {
 		if (stopButton == null) {
 			stopButton = new JButton();
-			stopButton.setBounds(new Rectangle(81, 7, 64, 27));
+			stopButton.setBounds(new Rectangle(136, 8, 64, 27));
 			stopButton.setText("stop");
 			stopButton.addActionListener(new ActionListener() {
 
@@ -172,11 +160,11 @@ public class MidiWiiGUI extends JFrame {
 	private JButton getButtonConfigure() {
 		if (buttonConfigure == null) {
 			buttonConfigure = new JButton();
-			buttonConfigure.setBounds(new Rectangle(155, 6, 101, 28));
+			buttonConfigure.setBounds(new Rectangle(13, 125, 97, 28));
 			buttonConfigure.setText("Config MIDI");
 			buttonConfigure.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					ConfigurationGUI gui = new ConfigurationGUI(MidiWiiGUI.this, midiwii.getCurrentConfig());
+					MIDIConfigurationGUI gui = new MIDIConfigurationGUI(MidiWiiGUI.this, midiwii.getCurrentConfig());
 					gui.setVisible(true);
 					midiwii.configure(gui.getConfiguration());
 				}
@@ -199,59 +187,23 @@ public class MidiWiiGUI extends JFrame {
 	}
 
 	/**
-	 * This method initializes muteAccxCheckBox	
+	 * This method initializes configAccsButton	
 	 * 	
-	 * @return javax.swing.JCheckBox	
+	 * @return javax.swing.JButton	
 	 */
-	private JCheckBox getMuteAccxCheckBox() {
-		if (muteAccxCheckBox == null) {
-			muteAccxCheckBox = new JCheckBox();
-			muteAccxCheckBox.setBounds(new Rectangle(63, 122, 58, 21));
-			muteAccxCheckBox.setText("AccX");
-			muteAccxCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
-				public void stateChanged(javax.swing.event.ChangeEvent e) {
-					midiwii.muteAccX(muteAccxCheckBox.isSelected());
+	private JButton getConfigAccsButton() {
+		if (configAccsButton == null) {
+			configAccsButton = new JButton();
+			configAccsButton.setBounds(new Rectangle(115, 125, 109, 29));
+			configAccsButton.setText("Config Accs");
+			configAccsButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					AccsConfigurationGUI accsGui = new AccsConfigurationGUI(MidiWiiGUI.this, MidiWiiGUI.this.midiwii);
+					accsGui.setVisible(true);
 				}
 			});
 		}
-		return muteAccxCheckBox;
-	}
-
-	/**
-	 * This method initializes muteAccyCheckBox	
-	 * 	
-	 * @return javax.swing.JCheckBox	
-	 */
-	private JCheckBox getMuteAccyCheckBox() {
-		if (muteAccyCheckBox == null) {
-			muteAccyCheckBox = new JCheckBox();
-			muteAccyCheckBox.setBounds(new Rectangle(121, 120, 55, 24));
-			muteAccyCheckBox.setText("AccY");
-			muteAccyCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
-				public void stateChanged(javax.swing.event.ChangeEvent e) {
-					midiwii.muteAccY(muteAccyCheckBox.isSelected());				}
-			});
-		}
-		return muteAccyCheckBox;
-	}
-
-	/**
-	 * This method initializes muteAcczCheckBox	
-	 * 	
-	 * @return javax.swing.JCheckBox	
-	 */
-	private JCheckBox getMuteAcczCheckBox() {
-		if (muteAcczCheckBox == null) {
-			muteAcczCheckBox = new JCheckBox();
-			muteAcczCheckBox.setBounds(new Rectangle(177, 120, 55, 24));
-			muteAcczCheckBox.setText("AccZ");
-			muteAcczCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
-				public void stateChanged(javax.swing.event.ChangeEvent e) {
-					midiwii.muteAccZ(muteAcczCheckBox.isSelected());
-				}
-			});
-		}
-		return muteAcczCheckBox;
+		return configAccsButton;
 	}
 
 	public static void  main(String[] args)

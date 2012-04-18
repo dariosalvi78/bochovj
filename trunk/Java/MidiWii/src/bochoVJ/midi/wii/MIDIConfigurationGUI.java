@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class ConfigurationGUI extends JDialog {
+public class MIDIConfigurationGUI extends JDialog {
 
     private static final long serialVersionUID = 1L;
     private JPanel jContentPane = null;
@@ -54,7 +54,7 @@ public class ConfigurationGUI extends JDialog {
     /**
      * @param owner
      */
-    public ConfigurationGUI(Frame owner, Configuration c) {
+    public MIDIConfigurationGUI(Frame owner, Configuration c) {
 	super(owner);
 	initialize();
 	
@@ -227,7 +227,7 @@ public class ConfigurationGUI extends JDialog {
 	        
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	    	ConfigurationGUI.this.setVisible(false);
+	    	MIDIConfigurationGUI.this.setVisible(false);
 	        }
 	    });
 	}
