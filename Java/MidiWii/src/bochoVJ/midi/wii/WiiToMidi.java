@@ -23,6 +23,10 @@ public class WiiToMidi {
 	private boolean muteAccY;
 	private boolean muteAccZ;
 
+	public enum TransformationFunction { ABS, LINEAR };
+
+	public TransformationFunction transFunction;
+
 	public Configuration getCurrentConfig()
 	{
 		return config;
@@ -33,6 +37,8 @@ public class WiiToMidi {
 		muteAccX = false;
 		muteAccY = false;
 		muteAccZ = false;
+
+		transFunction = TransformationFunction.ABS;
 
 		config = Configuration.defaultConfiguration();
 
@@ -77,27 +83,56 @@ public class WiiToMidi {
 		});
 	}
 
+	public void setAccsFunction(TransformationFunction fc)
+	{
+		transFunction = fc;
+	}
+
 
 	public void muteAccX(boolean muted)
 	{
 		muteAccX = muted;
+	}
+	
+	public boolean isMutedAccX()
+	{
+		return muteAccX;
 	}
 
 	public void muteAccY(boolean muted)
 	{
 		muteAccY = muted;
 	}
+	
+	public boolean isMutedAccY()
+	{
+		return muteAccY;
+	}
 
 	public void muteAccZ(boolean muted)
 	{
 		muteAccZ = muted;
 	}
+	
+	public boolean isMutedAccZ()
+	{
+		return muteAccZ;
+	}
 
 
 	private int accToControl(double v)
 	{
-		int val = (int)(Math.abs(v)  * 127/ Acceleration.MaxACC) ;
-		if(val >127)
+		int val = 0;
+
+		if(transFunction == TransformationFunction.ABS)
+			val =(int)(Math.abs(v)  * 127/ Acceleration.MaxACC) ;
+		else if (transFunction == TransformationFunction.LINEAR)
+			val =(int)((v + Acceleration.MaxACC)  * 127/ (2*Acceleration.MaxACC)) ;
+
+		if(val < 0)
+			val = 0;
+		
+		if(val > 127)
 			val = 127;
 
 		return val;
