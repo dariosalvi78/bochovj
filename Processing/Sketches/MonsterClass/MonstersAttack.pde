@@ -6,7 +6,7 @@ Monster[] monsters = new Monster[Nmonsters];
 void setup()
 {
   background(0);
-  size(400, 400);
+  size(800, 600);
   frameRate(25);
   
   int rows = (int) sqrt( Nmonsters );
