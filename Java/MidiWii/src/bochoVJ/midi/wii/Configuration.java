@@ -40,6 +40,8 @@ public class Configuration {
 	public int accx;
 	public int accy;
 	public int accz;
+	
+	public int energy;
 
 	public int getButtonNote(WiiButton b)
 	{
@@ -94,6 +96,7 @@ public class Configuration {
 		config.buttonsChannel = Integer.parseInt(configFile.getProperty("buttonsChannel"));
 		config.buttonTwo = Integer.parseInt(configFile.getProperty("buttonTwo"));
 		config.buttonUp = Integer.parseInt(configFile.getProperty("buttonUp"));
+		config.energy = Integer.parseInt(configFile.getProperty("energy"));
 		
 		return config;
 	}
@@ -124,7 +127,8 @@ public class Configuration {
 		c.buttonRight = 9;
 		c.buttonTwo = 10;
 		c.buttonUp = 11;
-
+		c.energy = 12;
+		
 		return c;
 	}
 }
