@@ -8,13 +8,12 @@ To see how to setup Eclipse environment look at here: [EclipseSetup]
 
 Currently the projects contained there are:
 
-  * [Common]
   * [HIDApiJ]
-  * [MidiDraw]
   * [MidiManager]
   * [MidiWii]
   * [WiiManager]
   * [Visualizers]
+  * [OSC2MIDI]
 
 plus there is a Library directory that contains the external libraries used in these projects.
 Currently there are:
@@ -24,3 +23,6 @@ Currently there are:
   * [http://bluecove.org/ Bluecove]
   * [WiiRemoteJ]
   * [WiiuseJ]
+  * [http://www.illposed.com/software/javaosc.html JavaOSC]
+  * [http://users.frii.com/jarvi/rxtx/ RXTX]
+  * [http://www.signal11.us/oss/hidapi/ HIDAPI]
