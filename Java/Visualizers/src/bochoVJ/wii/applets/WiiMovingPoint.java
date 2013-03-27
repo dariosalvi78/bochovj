@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import bochoVJ.drawing.core.Point;
 import bochoVJ.wii.IWiiHandler;
 import bochoVJ.wii.IWiiManager;
 import bochoVJ.wii.WiiRemoteJManager;

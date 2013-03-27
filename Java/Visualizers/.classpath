@@ -5,6 +5,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/MidiManager"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WiiManager"/>
 	<classpathentry kind="var" path="Libraries/processing-core.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Drawing"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
