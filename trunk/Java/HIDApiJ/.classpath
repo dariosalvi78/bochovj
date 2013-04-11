@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="var" path="Libraries/jna.jar"/>
+	<classpathentry kind="var" path="Libraries/jna.jar" sourcepath="/TestLibs/JNA/src-full.zip"/>
 	<classpathentry kind="var" path="Libraries/jna-platform.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>

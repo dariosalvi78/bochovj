@@ -11,6 +11,7 @@ package devices;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import hidapi.hidApiJNA;
 import hidapi.hidApiJNA.HIDLibrary;
 import hidapi.hidApiJNA.hid_device_info;
 
@@ -18,7 +19,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.WString;
 
 /**
- * Minia implements the potocol of the Minia HID device http://minitronics.net/
+ * This class implements the protocol of the Minia HID device http://minitronics.net/
  * 
  * @author bochovj
  *
@@ -32,9 +33,8 @@ public class Minia {
 
 	boolean scan = false;
 
-	public void open() throws Exception
-	{
-		final HIDLibrary lib = HIDLibrary.INSTANCE;
+	public void open() throws Exception {
+		final HIDLibrary lib = hidApiJNA.getInstance();
 		hid_device_info info = lib.hid_enumerate(vid, pid);
 		final Pointer device = lib.hid_open(info.vendor_id, info.product_id, info.serialNumber);
 		if(device == null)
@@ -92,28 +92,28 @@ public class Minia {
 	/** Product string */
 	public String device_productName;
 
-	public void stop()
-	{
+	public void stop() {
 		scan = false;
 		//TODO Close sensor
 	}
 
-	public interface MiniaDataHandler
-	{
+	public interface MiniaDataHandler {
 		public void Handle(MiniaData data);
 	}
 
 	private LinkedList<MiniaDataHandler> handlers = new LinkedList<MiniaDataHandler>();
 
 
-	public void addHandler(MiniaDataHandler handler)
-	{
+	public void addHandler(MiniaDataHandler handler) {
 		handlers.add(handler);
 	}
 
-
-	public class MiniaData
-	{
+	/**
+	 * Container of the Minia data packet
+	 * @author Dario Salvi
+	 *
+	 */
+	public class MiniaData {
 		public boolean digital1;
 		public boolean digital2;
 		public boolean digital3;
@@ -129,8 +129,7 @@ public class Minia {
 		public String bits;
 	}
 
-	private MiniaData parseBytes(byte[] data)
-	{
+	private MiniaData parseBytes(byte[] data) {
 		MiniaData retVal = new MiniaData();
 
 		byte[] temp = Arrays.copyOf(data, data.length);
@@ -194,8 +193,12 @@ public class Minia {
 		return retVal;
 	}
 
-	private static String printBits(byte[] data)
-	{
+	/**
+	 * Debug function for printing the received package as bits
+	 * @param data
+	 * @return
+	 */
+	private static String printBits(byte[] data) {
 		String retval = "";
 		for(int i=0; i< data.length; i++)
 		{
