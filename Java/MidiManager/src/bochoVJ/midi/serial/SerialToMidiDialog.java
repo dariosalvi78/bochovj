@@ -42,7 +42,7 @@ public class SerialToMidiDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public SerialToMidiDialog(final SerialToMidi stm) {
+	public SerialToMidiDialog(final SerialToMidi stm, final String portN, final int midiout) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setType(Type.UTILITY);
 		setTitle("Serial to Midi");
@@ -56,7 +56,7 @@ public class SerialToMidiDialog extends JDialog {
 			btnStart.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						stm.start();
+						stm.start(portN, midiout);
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(SerialToMidiDialog.this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}

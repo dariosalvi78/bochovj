@@ -16,6 +16,9 @@
  */
 package bochoVJ.midi.serial;
 
+import jarutils.NativeUtils;
+import jarutils.NativeUtils.OS;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,36 +56,35 @@ public class SerialToMidi {
 	CommPort port;
 	boolean keepreading;
 
+
 	/**
 	 * Standard constructor.
 	 * @param port the name of the serial port, e.g. COM2, TTY1
 	 * @param midiout, the midi device where to send messages
 	 * @throws Exception
 	 */
-	public SerialToMidi(String port, int midiout) throws Exception
-	{
-		portId =CommPortIdentifier.getPortIdentifier(port);
-		if(portId == null)
-		{
-			throw new Exception("Cannot open serial port "+port);
+	public SerialToMidi() throws Exception {
+		//Extract native libs
+		if(NativeUtils.detectOS() == OS.Windows){
+			if(NativeUtils.detectArchtiecture() == 32){
+				NativeUtils.extractLibraryFromJar("/natives/win32/rxtxSerial.dll");
+			}
+			else{
+				NativeUtils.extractLibraryFromJar("/natives/win64/rxtxSerial.dll");
+			}
 		}
-		this.midioutN = midiout;
-		this.midiout = new MidiManagerOut();
 	}
 
 	/**
 	 * Lists available serial ports.
 	 * @return
 	 */
-	public static List<String> getSerialPorts()
-	{
+	public List<String> getSerialPorts() {
 		List<String> retVal = new ArrayList<String>();
 		Enumeration<CommPortIdentifier> ports = CommPortIdentifier.getPortIdentifiers();
-		while(ports.hasMoreElements())
-		{
+		while(ports.hasMoreElements()) {
 			CommPortIdentifier port = ports.nextElement();
-			if(port.getPortType() == CommPortIdentifier.PORT_SERIAL)
-			{
+			if(port.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				retVal.add(port.getName());
 			}
 		}
@@ -94,16 +96,22 @@ public class SerialToMidi {
 	 * Starts gathering data from the serial port and sending it to the midi out
 	 * @throws Exception
 	 */
-	public void start() throws Exception
-	{
-		midiout.startDevice(midioutN);
+	public void start(String portN, int midioutN) throws Exception {
+		portId =CommPortIdentifier.getPortIdentifier(portN);
+		if(portId == null) {
+			throw new Exception("Cannot open serial port "+portN);
+		}
+		this.midioutN = midioutN;
+		this.midiout = new MidiManagerOut();
 
-		port = (SerialPort) portId.open(
+		this.midiout.startDevice(midioutN);
+
+		this.port = (SerialPort) portId.open(
 				"BochoVJ", // Name of the application asking for the port 
 				10000   // Wait max. 10 sec. to acquire port
-				);
+		);
 
-		InputStream is= port.getInputStream();
+		InputStream is= this.port.getInputStream();
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		keepreading = true;
 
@@ -158,8 +166,7 @@ public class SerialToMidi {
 	 * Starts an interactive and graphical way of using this utility
 	 * @param args ignored
 	 */
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		logger.info("Starting SerialToMidi");
 		try{
 			FileHandler fh = new FileHandler("serialToMidi.log");
@@ -167,26 +174,25 @@ public class SerialToMidi {
 			logger.addHandler(fh);
 			logger.setLevel(Level.ALL);
 
+			SerialToMidi SM = new SerialToMidi();
 			String chosenPort = (String) JOptionPane.showInputDialog(null, "Select serial port",
 					"Serial to Midi",
 					JOptionPane.QUESTION_MESSAGE, 
-					null, getSerialPorts().toArray(), null);
+					null, SM.getSerialPorts().toArray(), null);
 
 			logger.info("Chosen serial port "+chosenPort);
 
-			int out = MidiManagerOut.promptUserSelectDevice();
+			int midiout = MidiManagerOut.promptUserSelectDevice();
 
-			logger.info("Chosen midi port "+out);
-
-			SerialToMidi sm = new SerialToMidi(chosenPort, out);
-			SerialToMidiDialog dialog = new SerialToMidiDialog(sm);
+			logger.info("Chosen midi port "+midiout);
+			
+			SerialToMidiDialog dialog = new SerialToMidiDialog(SM, chosenPort, midiout);
 			dialog.setVisible(true);
 		}
 		catch (Exception e) {
 			logger.severe("Error: "+e.getMessage());
 			System.exit(-1);
 		}
-
 	}
 
 }
