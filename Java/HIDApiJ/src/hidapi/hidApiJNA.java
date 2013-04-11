@@ -10,6 +10,10 @@
  */
 package hidapi;
 
+import java.io.IOException;
+
+import jarutils.NativeUtils;
+
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -44,8 +48,7 @@ public class hidApiJNA  {
 	}
 
 
-	public interface HIDLibrary extends Library
-	{
+	public interface HIDLibrary extends Library {
 		/**
 		 * Enumerate the HID Devices.
 		 * This function returns a linked list of all the HID devices
@@ -61,19 +64,28 @@ public class hidApiJNA  {
 		int hid_read(Pointer device, byte[] data, int length);
 
 		WString hid_error(Pointer device);
-
-		HIDLibrary INSTANCE = (HIDLibrary) Native.loadLibrary("hidapi",HIDLibrary.class);
 	}
-	
-	
+
+	public static HIDLibrary getInstance() throws IOException{
+		return (HIDLibrary) NativeUtils.loadLibraryFromJar("/natives/hidapi.dll", HIDLibrary.class);
+	}
+
 	/**
 	 * A test to check that the library is loaded correctly.
 	 * @param args ignored
 	 */
-	public static void main(String[] args)
-	{
-		System.out.println("The HIDapi native should be put here: "+System.getProperty("user.dir"));
-		HIDLibrary lib = (HIDLibrary)  Native.loadLibrary("hidapi",HIDLibrary.class);
-		
+	public static void main(String[] args) {
+		try{
+			HIDLibrary lib = getInstance();
+			short id = 0x0A5C;
+			short pid = 0x4502;
+			hid_device_info info = lib.hid_enumerate(id, id);
+			System.out.println("Device accessed !");
+		}
+		catch(Exception e){
+			System.out.println("Error while loading native libraries ");
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 }

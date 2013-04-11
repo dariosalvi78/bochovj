@@ -41,8 +41,7 @@ public class DummyTest {
 		}
 	}
 
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		IWiiManager mng = new WiiuseJManager();
 		DummyWiiHandler handler = new DummyWiiHandler();
 		mng.addHandler(handler);
