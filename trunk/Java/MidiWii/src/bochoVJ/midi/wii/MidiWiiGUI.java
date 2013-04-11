@@ -39,8 +39,9 @@ public class MidiWiiGUI extends JFrame {
 
 	/**
 	 * This is the default constructor
+	 * @throws Exception 
 	 */
-	public MidiWiiGUI() {
+	public MidiWiiGUI() throws Exception {
 		super();
 		initialize();
 
@@ -206,12 +207,10 @@ public class MidiWiiGUI extends JFrame {
 		return configAccsButton;
 	}
 
-	public static void  main(String[] args)
-	{
+	public static void  main(String[] args) throws Exception {
 		final MidiWiiGUI window = new MidiWiiGUI();
 
 
 		window.setVisible(true);
-
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"
