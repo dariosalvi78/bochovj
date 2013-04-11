@@ -35,8 +35,7 @@ public class WiiToMidi {
 		return config;
 	}
 
-	public WiiToMidi(int mididevice)
-	{
+	public WiiToMidi(int mididevice) throws Exception {
 		muteAccX = false;
 		muteAccY = false;
 		muteAccZ = false;
