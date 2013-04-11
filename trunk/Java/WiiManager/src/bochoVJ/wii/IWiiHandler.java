@@ -20,8 +20,7 @@ public interface IWiiHandler {
 	 * 
 	 * @author bochovj
 	 */
-	public class Acceleration
-	{
+	public class Acceleration {
 		public double x, y, z;
 		public static final double MaxACC = 5;
 	}
