@@ -41,8 +41,7 @@ public class WiiRemoteJManager implements IWiiManager {
 	/* (non-Javadoc)
 	 * @see bochoVJ.wii.IWiiManager#getBatteryLevel()
 	 */
-	public double getBatteryLevel()
-	{
+	public double getBatteryLevel() {
 		return batteryLevel;
 	}
 
@@ -58,8 +57,7 @@ public class WiiRemoteJManager implements IWiiManager {
 	/* (non-Javadoc)
 	 * @see bochoVJ.wii.IWiiManager#addHandler(bochoVJ.wii.IWiiHandler)
 	 */
-	public void addHandler(IWiiHandler han)
-	{
+	public void addHandler(IWiiHandler han) {
 		wiiHandlers.add(han);
 	}
 	

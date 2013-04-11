@@ -7,8 +7,14 @@
  */
 package bochoVJ.wii;
 
+import jarutils.NativeUtils;
+import jarutils.NativeUtils.OS;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import sun.org.mozilla.javascript.internal.NativeArray;
 
 import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
@@ -29,8 +35,6 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 import bochoVJ.wii.IWiiHandler.Acceleration;
 import bochoVJ.wii.IWiiHandler.WiiButton;
 
-
-
 /**
  * Wrapper for Wiiusej
  * http://code.google.com/p/wiiusej/
@@ -48,22 +52,40 @@ public class WiiuseJManager implements IWiiManager {
 	/* (non-Javadoc)
 	 * @see bochoVJ.wii.IWiiManager#getBatteryLevel()
 	 */
-	public double getBatteryLevel()
-	{
+	public double getBatteryLevel() {
 		return batteryLevel;
 	}
 
-	public WiiuseJManager()
-	{
-
-		wiiHandlers = new LinkedList<IWiiHandler>();	
+	public WiiuseJManager() throws Exception{
+		wiiHandlers = new LinkedList<IWiiHandler>();
+		
+		//Extract native libs
+		if(NativeUtils.detectOS() == OS.Windows){
+			if(NativeUtils.detectArchtiecture() == 32){
+				NativeUtils.loadLibraryFromJar("/natives/win32/wiiuse.dll");
+				NativeUtils.loadLibraryFromJar("/natives/win32/WiiUseJ.dll");
+			}
+			else{
+				NativeUtils.loadLibraryFromJar("/natives/win64/wiiuse.dll");
+				NativeUtils.loadLibraryFromJar("/natives/win64/WiiUseJ.dll");
+			}
+		}
+		else if (NativeUtils.detectOS() == OS.Unix){
+			if(NativeUtils.detectArchtiecture() == 32){
+				NativeUtils.loadLibraryFromJar("/natives/linux32/libwiiuse.os");
+				NativeUtils.loadLibraryFromJar("/natives/linux32/libWiiuseJ.dll");
+			}
+			else{
+				NativeUtils.loadLibraryFromJar("/natives/linux64/libwiiuse.os");
+				NativeUtils.loadLibraryFromJar("/natives/linux64/libWiiuseJ.dll");
+			}
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see bochoVJ.wii.IWiiManager#addHandler(bochoVJ.wii.IWiiHandler)
 	 */
-	public void addHandler(IWiiHandler han)
-	{
+	public void addHandler(IWiiHandler han) {
 		wiiHandlers.add(han);
 	}
 
