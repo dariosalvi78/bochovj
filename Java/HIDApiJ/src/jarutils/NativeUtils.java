@@ -31,12 +31,6 @@ import com.sun.jna.NativeLibrary;
 public class NativeUtils {
  
     /**
-     * Private constructor - this class will never be instanced
-     */
-    private NativeUtils() {
-    }
- 
-    /**
      * Loads library from current JAR archive
      * 
      * The file from JAR is copied into system temporary directory and then loaded. The temporary file is deleted after exiting.
@@ -117,5 +111,22 @@ public class NativeUtils {
         }
 
         return Native.loadLibrary(fileName, clazz);
+    }
+    
+    public static int detectArchtiecture() throws Exception{
+    	String arch = System.getProperty("os.arch");
+    	if(arch.indexOf("32") >= 0) return 32;
+    	if(arch.indexOf("64") >= 0) return 64;
+    	throw new Exception("Cannot detect archtiecture "+arch);
+    }
+    
+    public enum OS {Windows, Unix, MacOS, Solaris};
+    public static OS detectOS() throws Exception{
+    	String os = System.getProperty("os.name").toLowerCase();
+    	if (os.indexOf("win") >= 0) return OS.Windows;
+    	if(os.indexOf("mac") >= 0) return OS.MacOS;
+        if(os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0 ) return OS.Unix;
+        if(os.indexOf("sunos") >= 0) return OS.Solaris;
+        throw new Exception("Cannot detect OS "+os);
     }
 }

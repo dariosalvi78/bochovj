@@ -13,6 +13,7 @@ package hidapi;
 import java.io.IOException;
 
 import jarutils.NativeUtils;
+import jarutils.NativeUtils.OS;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
@@ -66,8 +67,14 @@ public class hidApiJNA  {
 		WString hid_error(Pointer device);
 	}
 
-	public static HIDLibrary getInstance() throws IOException{
-		return (HIDLibrary) NativeUtils.loadLibraryFromJar("/natives/hidapi.dll", HIDLibrary.class);
+	public static HIDLibrary getInstance() throws Exception{
+		if(NativeUtils.detectOS() == OS.Windows){
+			if(NativeUtils.detectArchtiecture() == 32)
+				return (HIDLibrary) NativeUtils.loadLibraryFromJar("/natives/win32/hidapi.dll", HIDLibrary.class);
+			else
+				return (HIDLibrary) NativeUtils.loadLibraryFromJar("/natives/win64/hidapi.dll", HIDLibrary.class);
+		}
+		throw new Exception("Don't have native libraries for this operating system");
 	}
 
 	/**
