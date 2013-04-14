@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import bochoVJ.midi.MidiManagerOut;
+import bochoVJ.wii.DummyTest;
 import bochoVJ.wii.IWiiHandler;
 
 import java.awt.Color;
@@ -16,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import javax.swing.JLabel;
+import java.awt.Dimension;
 
 public class MidiWiiGUI extends JFrame {
 
@@ -29,13 +31,15 @@ public class MidiWiiGUI extends JFrame {
 
 	private JButton buttonConfigure = null;
 
-	private GraphPlotter graphPlotter = null;
+	private GraphPlotterInput graphPlotterInput = null;
 
 	private JLabel buttonLabel = null;
 
 	private JLabel lastButtonLabel = null;
 
 	private JButton configAccsButton = null;
+
+	private GraphPlotterInput graphPlotterMIDI = null;
 
 	/**
 	 * This is the default constructor
@@ -56,9 +60,13 @@ public class MidiWiiGUI extends JFrame {
 
 			@Override
 			public void handleAcc(Acceleration acc) {
-				graphPlotter.graphPoint(acc.x, Color.red,-Acceleration.MaxACC, Acceleration.MaxACC);
-				graphPlotter.graphPoint(acc.y, Color.green,-Acceleration.MaxACC, Acceleration.MaxACC);
-				graphPlotter.graphPoint(acc.z, Color.blue,-Acceleration.MaxACC, Acceleration.MaxACC);
+				graphPlotterInput.graphPoint(acc.x, Color.red,-Acceleration.MaxACC, Acceleration.MaxACC);
+				graphPlotterInput.graphPoint(acc.y, Color.green,-Acceleration.MaxACC, Acceleration.MaxACC);
+				graphPlotterInput.graphPoint(acc.z, Color.blue,-Acceleration.MaxACC, Acceleration.MaxACC);
+				
+				graphPlotterMIDI.graphPoint(midiwii.accToControl(acc.x), Color.red,-Acceleration.MaxACC, Acceleration.MaxACC);
+				graphPlotterMIDI.graphPoint(midiwii.accToControl(acc.y), Color.green,-Acceleration.MaxACC, Acceleration.MaxACC);
+				graphPlotterMIDI.graphPoint(midiwii.accToControl(acc.z), Color.blue,-Acceleration.MaxACC, Acceleration.MaxACC);
 			}
 		});
 	}
@@ -70,7 +78,7 @@ public class MidiWiiGUI extends JFrame {
 	 */
 	private void initialize() {
 		this.setTitle("MidiWii");
-		this.setSize(275, 198);
+		this.setSize(275, 278);
 		this.setContentPane(getJContentPane());
 		this.addWindowStateListener(new WindowStateListener() {
 
@@ -102,6 +110,7 @@ public class MidiWiiGUI extends JFrame {
 			jContentPane.add(buttonLabel, null);
 			jContentPane.add(lastButtonLabel, null);
 			jContentPane.add(getConfigAccsButton(), null);
+			jContentPane.add(getGraphPlotterMIDI(), null);
 		}
 		return jContentPane;
 	}
@@ -161,7 +170,7 @@ public class MidiWiiGUI extends JFrame {
 	private JButton getButtonConfigure() {
 		if (buttonConfigure == null) {
 			buttonConfigure = new JButton();
-			buttonConfigure.setBounds(new Rectangle(13, 125, 97, 28));
+			buttonConfigure.setBounds(new Rectangle(11, 198, 97, 28));
 			buttonConfigure.setText("Config MIDI");
 			buttonConfigure.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -179,12 +188,12 @@ public class MidiWiiGUI extends JFrame {
 	 * 	
 	 * @return bochoVJ.midi.wii.GraphPlotter	
 	 */
-	private GraphPlotter getGraphPlotter() {
-		if (graphPlotter == null) {
-			graphPlotter = new GraphPlotter();
-			graphPlotter.setBounds(new Rectangle(9, 53, 176, 65));
+	private GraphPlotterInput getGraphPlotter() {
+		if (graphPlotterInput == null) {
+			graphPlotterInput = new GraphPlotterInput();
+			graphPlotterInput.setBounds(new Rectangle(13, 48, 170, 65));
 		}
-		return graphPlotter;
+		return graphPlotterInput;
 	}
 
 	/**
@@ -195,7 +204,7 @@ public class MidiWiiGUI extends JFrame {
 	private JButton getConfigAccsButton() {
 		if (configAccsButton == null) {
 			configAccsButton = new JButton();
-			configAccsButton.setBounds(new Rectangle(115, 125, 109, 29));
+			configAccsButton.setBounds(new Rectangle(133, 198, 109, 29));
 			configAccsButton.setText("Config Accs");
 			configAccsButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -207,10 +216,21 @@ public class MidiWiiGUI extends JFrame {
 		return configAccsButton;
 	}
 
+	/**
+	 * This method initializes graphPlotterMIDI	
+	 * 	
+	 * @return bochoVJ.midi.wii.GraphPlotter	
+	 */
+	private GraphPlotterInput getGraphPlotterMIDI() {
+		if (graphPlotterMIDI == null) {
+			graphPlotterMIDI = new GraphPlotterInput();
+			graphPlotterMIDI.setBounds(new Rectangle(11, 128, 233, 56));
+		}
+		return graphPlotterMIDI;
+	}
+
 	public static void  main(String[] args) throws Exception {
 		final MidiWiiGUI window = new MidiWiiGUI();
-
-
 		window.setVisible(true);
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"

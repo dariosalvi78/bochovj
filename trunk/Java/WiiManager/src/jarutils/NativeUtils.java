@@ -36,7 +36,7 @@ public class NativeUtils {
      * @throws IllegalArgumentException If source file (param path) does not exist
      * @throws IllegalArgumentException If the path is not absolute or if the filename is shorter than three characters (restriction of {@see File#createTempFile(java.lang.String, java.lang.String)}).
      */
-    public static void loadLibraryFromJar(String path) throws IOException {
+    public static void extractLibraryFromJar(String path) throws IOException {
  
         if (!path.startsWith("/")) {
             throw new IllegalArgumentException("The path to be absolute (start with '/').");

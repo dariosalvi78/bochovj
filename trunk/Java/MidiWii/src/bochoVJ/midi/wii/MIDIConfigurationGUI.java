@@ -54,6 +54,8 @@ public class MIDIConfigurationGUI extends JDialog {
 	private JTextField buttonsText = null;
 	private JLabel energyLabel = null;
 	private JTextField energyText = null;
+	
+	Configuration conf;
 	/**
 	 * @param owner
 	 */
@@ -61,6 +63,7 @@ public class MIDIConfigurationGUI extends JDialog {
 		super(owner);
 		initialize();
 
+		conf = c;
 		buttonAText.setText(Integer.toString(c.buttonA));
 		buttonBText.setText(Integer.toString(c.buttonB));
 		buttonHOMEText.setText(Integer.toString(c.buttonHome));
@@ -449,8 +452,7 @@ public class MIDIConfigurationGUI extends JDialog {
 		 return buttonsText;
 	 }
 
-	 public Configuration getConfiguration()
-	 {
+	 public Configuration getConfiguration() {
 		 Configuration conf = new Configuration();
 
 		 conf.buttonDown = Integer.parseInt(buttonDOWNText.getText());
