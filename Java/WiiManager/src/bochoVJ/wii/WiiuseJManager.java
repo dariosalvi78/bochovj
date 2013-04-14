@@ -62,22 +62,22 @@ public class WiiuseJManager implements IWiiManager {
 		//Extract native libs
 		if(NativeUtils.detectOS() == OS.Windows){
 			if(NativeUtils.detectArchtiecture() == 32){
-				NativeUtils.loadLibraryFromJar("/natives/win32/wiiuse.dll");
-				NativeUtils.loadLibraryFromJar("/natives/win32/WiiUseJ.dll");
+				NativeUtils.extractLibraryFromJar("/natives/win32/wiiuse.dll");
+				NativeUtils.extractLibraryFromJar("/natives/win32/WiiuseJ.dll");
 			}
 			else{
-				NativeUtils.loadLibraryFromJar("/natives/win64/wiiuse.dll");
-				NativeUtils.loadLibraryFromJar("/natives/win64/WiiUseJ.dll");
+				NativeUtils.extractLibraryFromJar("/natives/win64/wiiuse.dll");
+				NativeUtils.extractLibraryFromJar("/natives/win64/WiiuseJ.dll");
 			}
 		}
 		else if (NativeUtils.detectOS() == OS.Unix){
 			if(NativeUtils.detectArchtiecture() == 32){
-				NativeUtils.loadLibraryFromJar("/natives/linux32/libwiiuse.os");
-				NativeUtils.loadLibraryFromJar("/natives/linux32/libWiiuseJ.dll");
+				NativeUtils.extractLibraryFromJar("/natives/linux32/libwiiuse.so");
+				NativeUtils.extractLibraryFromJar("/natives/linux32/libWiiuseJ.so");
 			}
 			else{
-				NativeUtils.loadLibraryFromJar("/natives/linux64/libwiiuse.os");
-				NativeUtils.loadLibraryFromJar("/natives/linux64/libWiiuseJ.dll");
+				NativeUtils.extractLibraryFromJar("/natives/linux64/libwiiuse.so");
+				NativeUtils.extractLibraryFromJar("/natives/linux64/libWiiuseJ.so");
 			}
 		}
 	}
@@ -97,8 +97,7 @@ public class WiiuseJManager implements IWiiManager {
 	/* (non-Javadoc)
 	 * @see bochoVJ.wii.IWiiManager#connect()
 	 */
-	public void connect() throws Exception
-	{
+	public void connect() throws Exception {
 		Wiimote[] wiimotes = WiiUseApiManager.getWiimotes(1, true);
 		if((wiimotes == null) ||(wiimotes.length == 0))
 			throw new Exception("No WIIMote found");

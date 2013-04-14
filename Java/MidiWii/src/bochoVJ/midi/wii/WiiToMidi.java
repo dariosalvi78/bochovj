@@ -30,8 +30,7 @@ public class WiiToMidi {
 
 	public TransformationFunction transFunction;
 
-	public Configuration getCurrentConfig()
-	{
+	public Configuration getCurrentConfig() {
 		return config;
 	}
 
@@ -50,8 +49,6 @@ public class WiiToMidi {
 
 		//wiimng = new WiiRemoteJManager();
 		wiimng = new WiiuseJManager();
-
-
 		wiimng.addHandler(new IWiiHandler() {
 
 			@Override
@@ -92,8 +89,7 @@ public class WiiToMidi {
 		});
 	}
 
-	public void setAccsFunction(TransformationFunction fc)
-	{
+	public void setAccsFunction(TransformationFunction fc){
 		transFunction = fc;
 	}
 
@@ -123,7 +119,7 @@ public class WiiToMidi {
 	}
 
 
-	private int accToControl(double v) {
+	public int accToControl(double v) {
 		int val = 0;
 
 		if(transFunction == TransformationFunction.ABS)
@@ -145,7 +141,6 @@ public class WiiToMidi {
 	}
 
 	public void start() throws Exception {
-		
 		System.out.println("Starting midi out and wii");
 
 		midiOut.startDevice(mididevice);
@@ -153,8 +148,7 @@ public class WiiToMidi {
 		wiimng.connect();
 	}
 
-	public void stop()
-	{
+	public void stop() {
 		System.out.println("Stopping midi out and wii");
 
 		wiimng.disconnect();
@@ -162,8 +156,8 @@ public class WiiToMidi {
 		midiOut.close();
 	}
 
-	public void configure(Configuration c)
-	{
+	public void configure(Configuration c) {
 		config = c;
+		config.saveToFile();
 	}
 }

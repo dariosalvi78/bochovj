@@ -67,12 +67,21 @@ public class hidApiJNA  {
 		WString hid_error(Pointer device);
 	}
 
+	/**
+	 * Returns the singleton instance of the HID API.
+	 * @return
+	 * @throws Exception
+	 */
 	public static HIDLibrary getInstance() throws Exception{
 		if(NativeUtils.detectOS() == OS.Windows){
-			if(NativeUtils.detectArchtiecture() == 32)
-				return (HIDLibrary) NativeUtils.loadLibraryFromJar("/natives/win32/hidapi.dll", HIDLibrary.class);
-			else
-				return (HIDLibrary) NativeUtils.loadLibraryFromJar("/natives/win64/hidapi.dll", HIDLibrary.class);
+			if(NativeUtils.detectArchtiecture() == 32){
+				NativeUtils.extractLibraryFromJar("/natives/win32/hidapi.dll");
+				return (HIDLibrary) Native.loadLibrary("hidapi", HIDLibrary.class);
+			}
+			else{
+				NativeUtils.extractLibraryFromJar("/natives/win64/hidapi.dll");
+				return (HIDLibrary) Native.loadLibrary("hidapi", HIDLibrary.class);
+			}
 		}
 		throw new Exception("Don't have native libraries for this operating system");
 	}
@@ -80,19 +89,21 @@ public class hidApiJNA  {
 	/**
 	 * A test to check that the library is loaded correctly.
 	 * @param args ignored
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
-		try{
-			HIDLibrary lib = getInstance();
-			short id = 0x0A5C;
-			short pid = 0x4502;
-			hid_device_info info = lib.hid_enumerate(id, id);
-			System.out.println("Device accessed !");
+	public static void main(String[] args) throws Exception {
+		short vid = 0x0000; //0x0A5C;
+		short pid = 0x0001; //0x4502;
+		System.out.println("Trying to acess device vid "+Integer.toHexString(vid).toUpperCase()+
+				" pid "+Integer.toHexString(pid).toUpperCase());
+		
+		HIDLibrary lib = getInstance();
+		hid_device_info info = lib.hid_enumerate(vid, pid);
+		if(info == null){
+			System.out.println("Cannot access device");
 		}
-		catch(Exception e){
-			System.out.println("Error while loading native libraries ");
-			e.printStackTrace();
-			System.exit(-1);
+		else{
+			System.out.println("Device accessed: " + info.path);
 		}
 	}
 }

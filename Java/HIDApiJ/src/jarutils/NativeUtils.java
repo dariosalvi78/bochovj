@@ -30,20 +30,18 @@ import com.sun.jna.NativeLibrary;
  */
 public class NativeUtils {
  
-    /**
-     * Loads library from current JAR archive
+	/**
+     * Extracts library from current JAR archive and copies it to the local running directory.
      * 
-     * The file from JAR is copied into system temporary directory and then loaded. The temporary file is deleted after exiting.
+     * The file from JAR is copied into execution folder. The temporary file is deleted after exiting.
      * Method uses String as filename because the pathname is "abstract", not system-dependent.
      * 
      * @param filename The filename inside JAR as absolute path (beginning with '/'), e.g. /package/File.ext
-     * @param clazz The interface that will be mapped to the loaded library through JNA
-     * @return The instance of the clazz mapped to the native library
      * @throws IOException If temporary file creation or read/write operation fails
      * @throws IllegalArgumentException If source file (param path) does not exist
      * @throws IllegalArgumentException If the path is not absolute or if the filename is shorter than three characters (restriction of {@see File#createTempFile(java.lang.String, java.lang.String)}).
      */
-    public static Object loadLibraryFromJar(String path, Class clazz) throws IOException {
+    public static void extractLibraryFromJar(String path) throws IOException {
  
         if (!path.startsWith("/")) {
             throw new IllegalArgumentException("The path to be absolute (start with '/').");
@@ -59,19 +57,17 @@ public class NativeUtils {
         if (filename != null) {
             parts = filename.split("\\.", 2);
             prefix = parts[0];
-            suffix = (parts.length > 1) ? "."+parts[parts.length - 1] : null; // Thanks, davs! :-)
+            suffix = (parts.length > 1) ? "."+parts[parts.length - 1] : null;
         }
  
         // Check if the filename is okay
-        if (filename == null || prefix.length() < 3) {
-            throw new IllegalArgumentException("The filename has to be at least 3 characters long.");
+        if (filename == null) {
+            throw new IllegalArgumentException("The filename cannot be null");
         }
         
  
-        // Prepare temporary file
-        File temp = File.createTempFile(prefix, suffix);
-        //String tempDir = System.getProperty("java.io.tmpdir");
-        //File temp = new File(tempDir+"/11"+filename);
+        // Prepare temporary file in the running directory
+        File temp = new File(filename);
         temp.deleteOnExit();     
         	
         // Prepare buffer for data copying
@@ -99,18 +95,7 @@ public class NativeUtils {
             throw new FileNotFoundException("Could not copy native library to " + temp.getAbsolutePath());
         }
         
- 
-        // Finally, load the library
-        String tempDir = System.getProperty("java.io.tmpdir");
-        System.setProperty("jna.library.path",tempDir);
-        
-        String fileName = temp.getName();
-        int suffIndex = fileName.indexOf(suffix);
-        if(suffIndex != -1){
-        	fileName = fileName.substring(0, suffIndex);
-        }
-
-        return Native.loadLibrary(fileName, clazz);
+        System.out.println("Library extracted from "+path+" to ./"+filename);
     }
     
     public static int detectArchtiecture() throws Exception{

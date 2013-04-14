@@ -26,7 +26,7 @@ public class DummyTest {
 
 		@Override
 		public void handleAcc(Acceleration acc) {
-			//System.out.println("Acceleration: x "+acc.x+" y "+acc.y+" z "+acc.z);
+			System.out.println("Acceleration: x "+acc.x+" y "+acc.y+" z "+acc.z);
 			if(acc.x > max)
 				max = acc.x;
 			if(acc.y > max)
@@ -48,7 +48,7 @@ public class DummyTest {
 
 		mng.connect();
 
-		Thread.sleep(60000);
+		Thread.sleep(6000);
 
 		mng.disconnect();
 
