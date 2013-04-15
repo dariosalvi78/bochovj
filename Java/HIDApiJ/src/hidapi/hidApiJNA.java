@@ -10,16 +10,12 @@
  */
 package hidapi;
 
+
 import java.io.IOException;
 
 import jarutils.NativeUtils;
 import jarutils.NativeUtils.OS;
 
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
-import com.sun.jna.WString;
 
 /**
  * A JNA wrapper of the HIDapi, version 0.5.2
@@ -91,12 +87,13 @@ public class hidApiJNA  {
 	 * @param args ignored
 	 * @throws Exception 
 	 */
+
 	public static void main(String[] args) throws Exception {
 		short vid = 0x0000; //0x0A5C;
 		short pid = 0x0001; //0x4502;
 		System.out.println("Trying to acess device vid "+Integer.toHexString(vid).toUpperCase()+
 				" pid "+Integer.toHexString(pid).toUpperCase());
-		
+
 		HIDLibrary lib = getInstance();
 		hid_device_info info = lib.hid_enumerate(vid, pid);
 		if(info == null){
