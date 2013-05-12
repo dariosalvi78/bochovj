@@ -1,6 +1,8 @@
 #include <Servo.h> 
 
 Servo hservo;
+int hServoPIN = 11;
+int vServoPIN = 10;
 Servo vservo;
 
 volatile boolean state = false;
@@ -8,12 +10,11 @@ volatile boolean state = false;
 void setup() 
 { 
   Serial.begin(9600);
-  hservo.attach(11);
-  vservo.attach(10);
+  hservo.attach(hServoPIN);
+  vservo.attach(vServoPIN);
 
   hservo.write(0);
   vservo.write(0);
-  
 }
 
 void loop()
