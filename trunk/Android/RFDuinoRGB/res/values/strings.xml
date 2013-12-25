@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RFDuinoRGB</string>
+    <string name="title_activity_rfduino">RFDuinoRGB</string>
+    <string name="connect">Connect</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="disconnect">Disconnect</string>
+
+</resources>
