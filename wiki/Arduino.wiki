@@ -1,0 +1,9 @@
+#summary The Arduino folder of this repo
+
+= Arduino Folder =
+
+The Arduino folder of this repository contains [http://arduino.cc/ Arduino] sketches.
+Here you can find:
+  * CatsToy
+  * LightBox
+  * ServoTest
