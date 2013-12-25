@@ -1,0 +1,8 @@
+#summary Content of the PureData folder.
+
+= PureData Folder =
+
+This folder contains patches for the [http://puredata.info/ PureData] environment.
+At the moment we have:
+
+  * Minia
