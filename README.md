@@ -1,24 +1,27 @@
-= Introduction =
+Introduction
+===========
 
 I'm Dario Salvi, aka BochoVJ, an hobbyist VJ and a maker.
 As I'm doing some research with video synthesis (Processing, PureData), physical computing (Arduino, Minia, RFduino) and old style VJing (Resolume controlled by MIDI), I decided to publish the code I am producing as open source.
 
 I warmly welcome contributions from you (that's why the code is public), and I would be very happy to see people using what I've produced.
 
-= Project content =
+Project content
+===============
 
 The project contains five directories:
 
-  * [Android]
-  * [Arduino]
-  * [Fritzing]
-  * [Java]
-  * [Processing]
-  * [PureData]
+* [Android]
+* [Arduino]
+* [Fritzing]
+* [Java]
+* [Processing]
+* [PureData]
 
 Click on the link to see further explanations.
 
-= Contacts =
+Contacts
+--------
 
 These are my personal links:
 
